@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Admin — Ripley & Aidan</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: "Comic Sans MS", "Chalkboard SE", cursive;
+  background: #000; color: #fff; min-height: 100vh;
+  display: flex;
+}
+
+/* ═══ STARFIELD ═══ */
+.starfield {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+    radial-gradient(2px 2px at 80% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 50%, #fff, transparent),
+    radial-gradient(1px 1px at 10% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 40% 60%, #ff00ff, transparent),
+    radial-gradient(1px 1px at 60% 40%, #00ffff, transparent),
+    radial-gradient(1px 1px at 70% 90%, #ffff00, transparent);
+  background-color: #050520;
+  animation: drift 60s linear infinite;
+}
+@keyframes drift { from{background-position:0 0} to{background-position:200px 400px} }
+
+/* ═══ SIDEBAR ═══ */
+.sidebar {
+  width: 220px; min-height: 100vh; flex-shrink: 0;
+  background: rgba(0,0,0,0.6); border-right: 1px solid rgba(255,255,255,0.1);
+  padding: 0; display: flex; flex-direction: column;
+  position: fixed; left: 0; top: 0; bottom: 0; z-index: 50;
+}
+.sidebar-logo {
+  padding: 20px 16px; text-align: center;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, #ff0080, #ff8800, #ffff00, #00ffff, #ff00ff) 1;
+}
+.sidebar-logo .logo-names {
+  font-size: 1.1rem; font-weight: 900; font-style: italic;
+  background: linear-gradient(180deg, #ff0080, #ff8800, #ffff00);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(255,0,128,0.4));
+}
+.sidebar-logo .logo-sub {
+  font-family: 'Press Start 2P', monospace; font-size: 7px;
+  color: #00ffff; margin-top: 6px; text-shadow: 0 0 6px #00ffff;
+}
+.sidebar-nav { flex: 1; padding: 12px 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px; cursor: pointer; transition: all 0.15s;
+  border-left: 3px solid transparent; font-size: 0.9rem; color: #888;
+}
+.nav-item:hover { background: rgba(255,255,255,0.04); color: #ccc; }
+.nav-item.active { color: #ff0080; border-left-color: #ff0080; background: rgba(255,0,128,0.08); text-shadow: 0 0 6px rgba(255,0,128,0.3); }
+.nav-item .nav-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+.nav-item .nav-label { font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; }
+
+.sidebar-footer {
+  padding: 16px; border-top: 1px solid rgba(255,255,255,0.08);
+  font-family: Arial; font-size: 10px; color: #444; text-align: center;
+}
+
+/* ═══ MAIN CONTENT ═══ */
+.main { flex: 1; margin-left: 220px; min-height: 100vh; }
+
+/* Top stats bar */
+.top-stats-bar {
+  background: rgba(0,0,0,0.5); border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 12px 28px; display: flex; gap: 32px; align-items: center;
+  position: sticky; top: 0; z-index: 40; backdrop-filter: blur(8px);
+}
+.stat-chip {
+  display: flex; flex-direction: column;
+}
+.stat-chip .sc-label { font-family: 'Press Start 2P', monospace; font-size: 6px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.stat-chip .sc-value { font-family: Arial, sans-serif; font-size: 1rem; font-weight: 700; }
+
+/* Page area */
+.page { padding: 28px; display: none; }
+.page.active { display: block; }
+.page-title {
+  font-family: 'Press Start 2P', monospace; font-size: 12px;
+  color: #ff0080; text-shadow: 0 0 8px rgba(255,0,128,0.4);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 2px;
+}
+.page-desc { font-family: Arial, sans-serif; font-size: 14px; color: #888; margin-bottom: 24px; }
+
+/* ═══ DIVIDER ═══ */
+.neon-divider {
+  height: 3px; margin: 24px 0;
+  background: linear-gradient(90deg, transparent, #ff00ff, #00ffff, #ffff00, #ff00ff, transparent);
+}
+
+/* ═══ OVERVIEW CARDS ═══ */
+.cards-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.stat-card {
+  flex: 1; min-width: 150px;
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+  padding: 18px 16px; text-align: center; transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: rgba(255,0,128,0.3); }
+.stat-card .sc-title { font-family: 'Press Start 2P', monospace; font-size: 7px; color: #888; letter-spacing: 1px; margin-bottom: 8px; }
+.stat-card .sc-num { font-family: Arial, sans-serif; font-size: 1.5rem; font-weight: 800; }
+.stat-card .sc-sub { font-family: Arial; font-size: 11px; color: #555; margin-top: 4px; }
+
+/* ═══ SETTINGS ROW ═══ */
+.settings-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px; margin-bottom: 24px; padding: 16px;
+  border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02);
+}
+.sfield label {
+  display: block; font-family: 'Press Start 2P', monospace; font-size: 6px;
+  color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+}
+.sfield input {
+  width: 100%; padding: 8px 10px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-family: Arial; font-size: 14px; font-weight: 600;
+  outline: none; transition: border-color 0.2s;
+}
+.sfield input:focus { border-color: #00ffff; }
+
+/* ═══ SPREADSHEET ═══ */
+.sheet-section { margin-bottom: 16px; }
+.sheet-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; cursor: pointer;
+  background: rgba(255,0,128,0.06); border: 1px solid rgba(255,0,128,0.15);
+  border-bottom: none; transition: background 0.15s; user-select: none;
+}
+.sheet-header:hover { background: rgba(255,0,128,0.1); }
+.sheet-header h3 { font-family: Arial; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.sheet-header .sh-total { font-family: Arial; font-size: 14px; font-weight: 700; color: #ff0080; }
+.sheet-header .sh-chevron { color: #666; font-size: 12px; transition: transform 0.2s; margin-left: 12px; }
+.sheet-section.collapsed .sh-chevron { transform: rotate(-90deg); }
+.sheet-section.collapsed .sheet-body { display: none; }
+
+.sheet-body { border: 1px solid rgba(255,255,255,0.08); border-top: none; }
+
+table.spreadsheet {
+  width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 13px;
+}
+table.spreadsheet th {
+  background: rgba(255,0,128,0.12); color: #ff0080;
+  padding: 8px 10px; text-align: left;
+  font-family: 'Press Start 2P', monospace; font-size: 7px;
+  letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,0,128,0.2);
+}
+table.spreadsheet td {
+  padding: 2px 2px; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+table.spreadsheet tr:hover td { background: rgba(255,255,255,0.03); }
+table.spreadsheet input {
+  width: 100%; padding: 7px 10px; background: transparent;
+  border: 1px solid transparent; color: #ddd;
+  font-family: Arial; font-size: 13px; outline: none; transition: all 0.1s;
+}
+table.spreadsheet input:hover { background: rgba(255,255,255,0.05); }
+table.spreadsheet input:focus { background: rgba(255,255,255,0.08); border-color: #00ffff; }
+table.spreadsheet .num-input { text-align: right; }
+table.spreadsheet .col-total input { color: #00ffff; font-weight: 700; }
+table.spreadsheet .cell-del { width: 30px; text-align: center; }
+.col-name { min-width: 200px; }
+.col-qty { width: 70px; }
+.col-unit { width: 100px; }
+.col-price { width: 100px; }
+.col-total { width: 100px; }
+.col-notes { min-width: 140px; }
+.col-notes input { font-size: 12px; color: #777; }
+
+.btn-add-row {
+  display: inline-block; padding: 6px 14px; margin: 8px 10px;
+  font-family: Arial; font-size: 12px; color: #666;
+  border: 1px dashed rgba(255,255,255,0.15); background: none;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-add-row:hover { color: #ff0080; border-color: #ff0080; }
+.btn-x {
+  background: none; border: none; color: #444; font-size: 16px;
+  cursor: pointer; padding: 4px 8px;
+}
+.btn-x:hover { color: #ff0040; }
+
+/* ═══ IMPACT PANEL ═══ */
+.impact-box {
+  border: 1px solid rgba(0,255,255,0.2); background: rgba(0,255,255,0.04);
+  padding: 20px; margin-bottom: 24px;
+}
+.impact-box h3 {
+  font-family: 'Press Start 2P', monospace; font-size: 9px;
+  color: #00ffff; text-shadow: 0 0 6px #00ffff; margin-bottom: 14px;
+}
+.impact-line {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-family: Arial; font-size: 13px;
+}
+.impact-line:last-child { border-bottom: none; }
+.impact-line .il-name { color: #aaa; }
+.impact-line .il-planned { color: #666; font-size: 12px; }
+.impact-line .il-adjusted { color: #00ffff; font-weight: 700; }
+.impact-line .il-diff { font-weight: 700; font-size: 12px; padding: 2px 6px; }
+.il-diff.save { color: #00ff88; }
+.il-diff.over { color: #ff0040; }
+
+/* ═══ MARKUP BANNER ═══ */
+.markup-note {
+  padding: 10px 14px; margin-bottom: 16px; font-family: Arial; font-size: 12px;
+  border: 1px solid rgba(255,0,128,0.2); background: rgba(255,0,128,0.05); color: #aaa;
+}
+.markup-note strong { color: #ff0080; }
+
+/* ═══ PLACEHOLDER ═══ */
+.placeholder-box {
+  border: 1px dashed rgba(255,255,255,0.15); padding: 60px 20px;
+  text-align: center;
+}
+.placeholder-box .ph-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.placeholder-box p { font-family: Arial; font-size: 13px; color: #666; }
+
+/* ═══ DASHBOARD GRID ═══ */
+.dash-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.dash-panel {
+  border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
+  padding: 20px;
+}
+.dash-panel h3 {
+  font-family: 'Press Start 2P', monospace; font-size: 8px;
+  color: #00ffff; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  .sidebar { width: 60px; } .sidebar .nav-label, .sidebar-logo .logo-names, .sidebar-logo .logo-sub, .sidebar-footer { display: none; }
+  .nav-item { justify-content: center; padding: 14px 0; }
+  .main { margin-left: 60px; }
+  .dash-panels { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .cards-row { flex-direction: column; }
+  .top-stats-bar { flex-wrap: wrap; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="starfield"></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-names">Ripley & Aidan</div>
+    <div class="logo-sub">ADMIN PANEL</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-item active" onclick="go('dashboard')"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></div>
+    <div class="nav-item" onclick="go('budget')"><span class="nav-icon">💰</span><span class="nav-label">Budget</span></div>
+    <div class="nav-item" onclick="go('guests')"><span class="nav-icon">👥</span><span class="nav-label">Guests</span></div>
+    <div class="nav-item" onclick="go('registry')"><span class="nav-icon">🎁</span><span class="nav-label">Registry</span></div>
+    <div class="nav-item" onclick="go('thankyou')"><span class="nav-icon">💌</span><span class="nav-label">Thank Yous</span></div>
+  </div>
+  <div class="sidebar-footer">© 2026 · Best viewed in<br>Netscape Navigator 4.0</div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+
+  <!-- Top stats -->
+  <div class="top-stats-bar">
+    <div class="stat-chip"><span class="sc-label">Planned</span><span class="sc-value" style="color:#ffff00" id="ts-planned">$0</span></div>
+    <div class="stat-chip"><span class="sc-label">RSVP Adjusted</span><span class="sc-value" style="color:#00ffff" id="ts-adjusted">--</span></div>
+    <div class="stat-chip"><span class="sc-label">Difference</span><span class="sc-value" style="color:#00ff88" id="ts-diff">--</span></div>
+    <div class="stat-chip"><span class="sc-label">Budget Left</span><span class="sc-value" style="color:#ff0080" id="ts-left">--</span></div>
+  </div>
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div class="page active" id="pg-dashboard">
+    <div class="page-title">Dashboard</div>
+    <div class="page-desc">Your wedding at a glance.</div>
+    <div class="cards-row" id="dash-cards"></div>
+    <div class="neon-divider"></div>
+    <div class="dash-panels">
+      <div class="dash-panel"><h3>Cost by Category</h3><div style="position:relative;height:300px;"><canvas id="chart-cats"></canvas></div></div>
+      <div class="dash-panel"><h3>Planned vs RSVP</h3><div id="dash-compare"></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ BUDGET ═══ -->
+  <div class="page" id="pg-budget">
+    <div class="page-title">Budget</div>
+    <div class="page-desc">Edit any cell. Qty &times; Unit Price = Total. Bar items get markup on category totals.</div>
+
+    <div class="settings-row" id="settings"></div>
+    <div class="cards-row" id="overview-cards"></div>
+    <div id="impact-panel"></div>
+    <div id="categories"></div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <button class="btn-add-row" onclick="resetData()" style="color:#ff0040;border-color:rgba(255,0,64,0.3);">Reset to Defaults</button>
+    </div>
+  </div>
+
+  <!-- ═══ GUESTS ═══ -->
+  <div class="page" id="pg-guests">
+    <div class="page-title">Guests & RSVPs</div>
+    <div class="page-desc">Import guest list, track RSVPs, see how responses change your budget.</div>
+    <div class="placeholder-box"><div class="ph-icon">👥</div><p>CSV import, RSVP pipeline, alcohol question data, charts.<br><span style="color:#444">Phase 2 — coming next</span></p></div>
+  </div>
+
+  <!-- ═══ REGISTRY ═══ -->
+  <div class="page" id="pg-registry">
+    <div class="page-title">Registry & Donations</div>
+    <div class="placeholder-box"><div class="ph-icon">🎁</div><p>Fund tracking, donation log, progress bars.<br><span style="color:#444">Phase 3</span></p></div>
+  </div>
+
+  <!-- ═══ THANK YOUS ═══ -->
+  <div class="page" id="pg-thankyou">
+    <div class="page-title">Thank You Tracker</div>
+    <div class="placeholder-box"><div class="ph-icon">💌</div><p>Auto-populated from guest list. Track sent status.<br><span style="color:#444">Phase 3</span></p></div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const SK = 'WEDDING_ADMIN_V2';
+
+function defaults() {
+  return {
+    settings: { totalBudget:'', plannedGuests:200, drinkPct:85, barMarkup:80, hours:4, rsvpGuests:0, rsvpDrinkers:0 },
+    categories: [
+      { id:'beer', name:'Beer', icon:'🍺', cat:'bar', collapsed:false, scaleWith:'drinkers', items:[
+        { name:'Light beer (Yuengling, Miller Lite)', qty:12, unit:'cases', unitPrice:30, notes:'Session-friendly' },
+        { name:'IPA / Craft (Yards, Victory)', qty:6, unit:'cases', unitPrice:42, notes:'Local Philly' },
+        { name:'Import (Corona, Heineken)', qty:5, unit:'cases', unitPrice:42, notes:'' },
+      ]},
+      { id:'wine', name:'Wine', icon:'🍷', cat:'bar', collapsed:false, scaleWith:'drinkers', items:[
+        { name:'White (Pinot Grigio, Sauv Blanc)', qty:25, unit:'bottles', unitPrice:12.50, notes:'~5 glasses/bottle' },
+        { name:'Rosé', qty:15, unit:'bottles', unitPrice:12.50, notes:'Wedding staple' },
+        { name:'Red (Cabernet, Merlot)', qty:26, unit:'bottles', unitPrice:12.50, notes:'' },
+      ]},
+      { id:'liquor', name:'Liquor', icon:'🥃', cat:'bar', collapsed:false, scaleWith:'drinkers', items:[
+        { name:"Vodka (Tito's, Absolut)", qty:3, unit:'handles 1.75L', unitPrice:35, notes:'Most-used' },
+        { name:'Whiskey / Bourbon', qty:3, unit:'handles 1.75L', unitPrice:43, notes:'' },
+        { name:'Tequila (Espolòn, Casamigos)', qty:2, unit:'handles 1.75L', unitPrice:45, notes:'Batch margs' },
+        { name:'Rum (Bacardi, Captain)', qty:2, unit:'handles 1.75L', unitPrice:33, notes:'' },
+        { name:'Gin (Beefeater, Tanqueray)', qty:1, unit:'handles 1.75L', unitPrice:38, notes:'Low demand' },
+      ]},
+      { id:'mixers', name:'Mixers, Ice & Extras', icon:'🧊', cat:'bar', collapsed:false, scaleWith:'drinkers', items:[
+        { name:'Club soda / tonic', qty:10, unit:'liters', unitPrice:3, notes:'' },
+        { name:'Cola / Diet', qty:8, unit:'liters', unitPrice:3, notes:'' },
+        { name:'Ginger ale', qty:6, unit:'liters', unitPrice:3.50, notes:'' },
+        { name:'Cranberry juice', qty:4, unit:'gallons', unitPrice:6, notes:'' },
+        { name:'OJ', qty:3, unit:'gallons', unitPrice:6, notes:'' },
+        { name:'Limes & lemons', qty:60, unit:'each', unitPrice:0.50, notes:'' },
+        { name:'Simple syrup', qty:2, unit:'bottles', unitPrice:6, notes:'' },
+        { name:'Ice', qty:450, unit:'lbs', unitPrice:0.22, notes:"Don't skimp" },
+        { name:'Bottled water', qty:10, unit:'cases', unitPrice:5, notes:'Non-negotiable' },
+      ]},
+      { id:'venue', name:'Venue', icon:'🏛', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Lithuanian Music Hall rental', qty:1, unit:'', unitPrice:0, notes:'2nd floor' },
+        { name:'Tables & chairs', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'catering', name:'Catering (Taco Truck)', icon:'🌮', cat:'other', collapsed:true, scaleWith:'guests', items:[
+        { name:'Taco truck service', qty:200, unit:'per guest', unitPrice:0, notes:'4 hrs' },
+        { name:'Wedding cake', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Late night snack', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'photo', name:'Photo & Video', icon:'📷', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Photographer', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Videographer', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Photo booth', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'music', name:'Music & Entertainment', icon:'🎵', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'DJ / Band', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Sound system', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'flowers', name:'Flowers & Decor', icon:'💐', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Centerpieces', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Bouquets', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Arch / backdrop', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Lighting', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'attire', name:'Attire & Beauty', icon:'👗', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Wedding dress', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Suit / tux', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Hair & makeup', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'stationery', name:'Stationery', icon:'✉️', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Invitations & postage', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Signage / menus', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'transport', name:'Transportation', icon:'🚗', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Shuttle', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Getaway car', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+      { id:'misc', name:'Misc', icon:'📋', cat:'other', collapsed:true, scaleWith:'fixed', items:[
+        { name:'Officiant', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Marriage license', qty:1, unit:'', unitPrice:100, notes:'~$100 Philly' },
+        { name:'Wedding planner', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Favors', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Tips', qty:1, unit:'', unitPrice:0, notes:'' },
+        { name:'Insurance', qty:1, unit:'', unitPrice:0, notes:'' },
+      ]},
+    ]
+  };
+}
+
+let D;
+try { D = JSON.parse(localStorage.getItem(SK)); if(!D||!D.categories) throw 0; } catch(e) { D=defaults(); }
+function save() { localStorage.setItem(SK, JSON.stringify(D)); }
+
+// ═══ HELPERS ═══
+const fmt = n => '$'+Math.round(n).toLocaleString('en-US');
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const iTotal = i => (Number(i.qty)||0)*(Number(i.unitPrice)||0);
+const cTotal = c => c.items.reduce((a,i)=>a+iTotal(i),0);
+const mm = () => 1+(Number(D.settings.barMarkup)||0)/100;
+const pDrinkers = () => Math.round((Number(D.settings.plannedGuests)||0)*(Number(D.settings.drinkPct)||85)/100);
+
+function barPlanned(){ return D.categories.filter(c=>c.cat==='bar').reduce((a,c)=>a+cTotal(c),0)*mm(); }
+function otherPlanned(){ return D.categories.filter(c=>c.cat==='other').reduce((a,c)=>a+cTotal(c),0); }
+function grandPlanned(){ return barPlanned()+otherPlanned(); }
+
+function rsvpScale(cat){
+  const rg=Number(D.settings.rsvpGuests)||0;
+  if(!rg) return null;
+  const pg=Number(D.settings.plannedGuests)||1, pd=pDrinkers()||1, rd=Number(D.settings.rsvpDrinkers)||0;
+  if(cat.scaleWith==='drinkers') return rd/pd;
+  if(cat.scaleWith==='guests') return rg/pg;
+  return 1;
+}
+function grandAdjusted(){
+  if(!Number(D.settings.rsvpGuests)) return null;
+  let t=0;
+  D.categories.forEach(c=>{const s=rsvpScale(c); const base=s!==null?cTotal(c)*s:cTotal(c); t+=c.cat==='bar'?base*mm():base;});
+  return t;
+}
+
+// ═══ NAV ═══
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  const items=document.querySelectorAll('.nav-item');
+  const map={dashboard:0,budget:1,guests:2,registry:3,thankyou:4};
+  if(items[map[id]]) items[map[id]].classList.add('active');
+  if(id==='dashboard') renderDash();
+}
+
+// ═══ SETTINGS ═══
+function renderSettings(){
+  const s=D.settings;
+  document.getElementById('settings').innerHTML = `
+    <div class="sfield"><label>Budget ($)</label><input type="number" id="f-budget" value="${esc(s.totalBudget)}" placeholder="35000"></div>
+    <div class="sfield"><label>Planned Guests</label><input type="number" id="f-guests" value="${s.plannedGuests}"></div>
+    <div class="sfield"><label>Est % Drink</label><input type="number" id="f-drinkpct" value="${s.drinkPct}"></div>
+    <div class="sfield"><label>Bar Markup %</label><input type="number" id="f-markup" value="${s.barMarkup}"></div>
+    <div class="sfield"><label>Hours</label><input type="number" id="f-hours" value="${s.hours}"></div>
+    <div class="sfield"><label>RSVP'd Guests</label><input type="number" id="f-rg" value="${s.rsvpGuests}" placeholder="0"></div>
+    <div class="sfield"><label>RSVP'd Drinkers</label><input type="number" id="f-rd" value="${s.rsvpDrinkers}" placeholder="0"></div>
+  `;
+  const bind={'f-budget':'totalBudget','f-guests':'plannedGuests','f-drinkpct':'drinkPct','f-markup':'barMarkup','f-hours':'hours','f-rg':'rsvpGuests','f-rd':'rsvpDrinkers'};
+  Object.entries(bind).forEach(([el,key])=>{
+    document.getElementById(el).addEventListener('input',function(){ D.settings[key]=this.value; save(); refresh(); });
+  });
+}
+
+// ═══ OVERVIEW CARDS ═══
+function renderOverview(){
+  const b=Number(D.settings.totalBudget)||0, g=Number(D.settings.plannedGuests)||1;
+  const gp=grandPlanned(), ga=grandAdjusted();
+  const rg=Number(D.settings.rsvpGuests)||0, rd=Number(D.settings.rsvpDrinkers)||0;
+  document.getElementById('overview-cards').innerHTML = `
+    <div class="stat-card"><div class="sc-title">Budget</div><div class="sc-num" style="color:#00ffff">${b?fmt(b):'--'}</div><div class="sc-sub">${b?fmt(b/g)+'/guest':''}</div></div>
+    <div class="stat-card"><div class="sc-title">Planned</div><div class="sc-num" style="color:#ffff00">${fmt(gp)}</div><div class="sc-sub">${g} guests · ${pDrinkers()} drinkers</div></div>
+    <div class="stat-card"><div class="sc-title">RSVP Adjusted</div><div class="sc-num" style="color:#00ffff">${ga!==null?fmt(ga):'--'}</div><div class="sc-sub">${rg?rg+' guests · '+rd+' drink':'No RSVPs yet'}</div></div>
+    <div class="stat-card"><div class="sc-title">${ga!==null?'Difference':'Remaining'}</div><div class="sc-num" style="color:${ga!==null?(gp-ga>=0?'#00ff88':'#ff0040'):(b?(b-gp>=0?'#00ff88':'#ff0040'):'#555')}">${ga!==null?((gp-ga>=0?'':'+')+fmt(Math.abs(gp-ga))):(b?fmt(b-gp):'--')}</div><div class="sc-sub">${ga!==null?(gp-ga>=0?'saving vs plan':'over plan'):(b?(b-gp>=0?'under budget':'over budget'):'')}</div></div>
+  `;
+  // Top bar
+  document.getElementById('ts-planned').textContent=fmt(gp);
+  document.getElementById('ts-adjusted').textContent=ga!==null?fmt(ga):'--';
+  const diff=ga!==null?gp-ga:null;
+  const tsDiff=document.getElementById('ts-diff');
+  tsDiff.textContent=diff!==null?((diff>=0?'-':'+')+fmt(Math.abs(diff))):'--';
+  tsDiff.style.color=diff!==null?(diff>=0?'#00ff88':'#ff0040'):'#555';
+  const tsLeft=document.getElementById('ts-left');
+  const b2=Number(D.settings.totalBudget)||0;
+  tsLeft.textContent=b2?fmt(b2-gp):'--';
+  tsLeft.style.color=b2?(b2-gp>=0?'#00ff88':'#ff0040'):'#555';
+}
+
+// ═══ IMPACT PANEL ═══
+function renderImpact(){
+  const el=document.getElementById('impact-panel');
+  const rg=Number(D.settings.rsvpGuests)||0;
+  if(!rg){ el.innerHTML=`<div class="impact-box"><h3>📊 RSVP Impact</h3><p style="font-family:Arial;font-size:13px;color:#666;">Enter RSVP'd guests & drinkers above to see how costs adjust.</p></div>`; return; }
+  const pg=Number(D.settings.plannedGuests)||1, pd=pDrinkers()||1, rd=Number(D.settings.rsvpDrinkers)||0;
+  let rows='';
+  D.categories.forEach(c=>{
+    const p=cTotal(c), s=rsvpScale(c), adj=s!==null?p*s:p;
+    const m=c.cat==='bar'?mm():1;
+    const pM=p*m, aM=adj*m, d=pM-aM;
+    const tag=c.scaleWith==='fixed'?'fixed':c.scaleWith==='drinkers'?pd+'→'+rd:pg+'→'+rg;
+    rows+=`<div class="impact-line"><span class="il-name">${c.icon} ${c.name} <span style="font-size:10px;color:#444">(${tag})</span></span><span style="display:flex;gap:16px;align-items:center;"><span class="il-planned">${fmt(pM)}</span><span class="il-adjusted">${fmt(aM)}</span><span class="il-diff ${d>=0?'save':'over'}">${d>=0?'-':'+'}${fmt(Math.abs(d))}</span></span></div>`;
+  });
+  const gp=grandPlanned(),ga=grandAdjusted(),td=gp-ga;
+  el.innerHTML=`<div class="impact-box"><h3>📊 RSVP Impact — ${rg} guests, ${rd} drinkers</h3>${rows}<div class="impact-line" style="border-top:2px solid rgba(255,255,255,0.1);margin-top:8px;padding-top:10px;font-weight:700;"><span>Total</span><span style="display:flex;gap:16px;align-items:center;"><span class="il-planned">${fmt(gp)}</span><span class="il-adjusted">${fmt(ga)}</span><span class="il-diff ${td>=0?'save':'over'}">${td>=0?'-':'+'}${fmt(Math.abs(td))}</span></span></div></div>`;
+}
+
+// ═══ SPREADSHEET ═══
+function renderCats(){
+  const el=document.getElementById('categories');
+  let html='', bh=false, oh=false;
+  D.categories.forEach((cat,ci)=>{
+    if(cat.cat==='bar'&&!bh){ html+=`<div class="markup-note"><strong>${D.settings.barMarkup}% markup</strong> applied to bar category totals. Prices shown are base retail.</div>`; bh=true; }
+    if(cat.cat==='other'&&!oh){ html+=`<div style="font-family:'Press Start 2P',monospace;font-size:8px;color:#ffff00;text-transform:uppercase;letter-spacing:2px;margin:24px 0 12px;text-shadow:0 0 6px rgba(255,255,0,0.3);">Other Costs</div>`; oh=true; }
+    const ct=cTotal(cat), m=cat.cat==='bar'?mm():1;
+    const disp=cat.cat==='bar'?fmt(ct*m)+' ('+fmt(ct)+' base)':fmt(ct);
+    const col=cat.collapsed?'collapsed':'';
+    html+=`<div class="sheet-section ${col}" data-ci="${ci}">
+      <div class="sheet-header" onclick="tog(${ci})">
+        <h3>${cat.icon} ${cat.name}</h3>
+        <div><span class="sh-total">${disp}</span><span class="sh-chevron">▼</span></div>
+      </div>
+      <div class="sheet-body"><table class="spreadsheet"><tr>
+        <th class="col-name">Item</th><th class="col-qty">Qty</th><th class="col-unit">Unit</th><th class="col-price">Unit Price</th><th class="col-total">Total</th><th class="col-notes">Notes</th><th class="cell-del"></th>
+      </tr>`;
+    cat.items.forEach((item,ii)=>{
+      html+=`<tr>
+        <td class="col-name"><input type="text" value="${esc(item.name)}" onchange="u(${ci},${ii},'name',this.value)"></td>
+        <td class="col-qty"><input type="number" class="num-input" value="${item.qty}" min="0" onchange="u(${ci},${ii},'qty',this.value)"></td>
+        <td class="col-unit"><input type="text" value="${esc(item.unit)}" onchange="u(${ci},${ii},'unit',this.value)"></td>
+        <td class="col-price"><input type="number" class="num-input" value="${item.unitPrice}" min="0" step="0.01" onchange="u(${ci},${ii},'unitPrice',this.value)"></td>
+        <td class="col-total"><input type="number" class="num-input" value="${iTotal(item)?Math.round(iTotal(item)*100)/100:''}" min="0" step="0.01" placeholder="${fmt(0)}" onchange="uT(${ci},${ii},this.value)"></td>
+        <td class="col-notes"><input type="text" value="${esc(item.notes)}" onchange="u(${ci},${ii},'notes',this.value)"></td>
+        <td class="cell-del"><button class="btn-x" onclick="del(${ci},${ii})">&times;</button></td>
+      </tr>`;
+    });
+    html+=`</table><button class="btn-add-row" onclick="add(${ci})">+ Add row</button></div></div>`;
+  });
+  el.innerHTML=html;
+}
+
+// ═══ INTERACTIONS ═══
+function tog(ci){ D.categories[ci].collapsed=!D.categories[ci].collapsed; save(); renderCats(); }
+function u(ci,ii,f,v){
+  if(['qty','unitPrice'].includes(f)) v=Number(v)||0;
+  D.categories[ci].items[ii][f]=v;
+  save();
+  const tbl=document.querySelector(`[data-ci="${ci}"] .spreadsheet`);
+  if(tbl&&tbl.rows[ii+1]){
+    const totalInput=tbl.rows[ii+1].querySelector('.col-total input');
+    const t=iTotal(D.categories[ci].items[ii]);
+    if(totalInput) totalInput.value=t?Math.round(t*100)/100:'';
+  }
+  const cat=D.categories[ci],ct=cTotal(cat),m=cat.cat==='bar'?mm():1;
+  const hdr=document.querySelector(`[data-ci="${ci}"] .sh-total`);
+  if(hdr) hdr.textContent=cat.cat==='bar'?fmt(ct*m)+' ('+fmt(ct)+' base)':fmt(ct);
+  refresh();
+}
+function uT(ci,ii,v){
+  const total=Number(v)||0, qty=Number(D.categories[ci].items[ii].qty)||1;
+  D.categories[ci].items[ii].unitPrice=Math.round(total/qty*100)/100;
+  save();
+  const tbl=document.querySelector(`[data-ci="${ci}"] .spreadsheet`);
+  if(tbl&&tbl.rows[ii+1]){
+    const priceInput=tbl.rows[ii+1].querySelector('.col-price input');
+    if(priceInput) priceInput.value=D.categories[ci].items[ii].unitPrice;
+  }
+  const cat=D.categories[ci],ct=cTotal(cat),m=cat.cat==='bar'?mm():1;
+  const hdr=document.querySelector(`[data-ci="${ci}"] .sh-total`);
+  if(hdr) hdr.textContent=cat.cat==='bar'?fmt(ct*m)+' ('+fmt(ct)+' base)':fmt(ct);
+  refresh();
+}
+function add(ci){
+  D.categories[ci].items.push({name:'New item',qty:1,unit:'',unitPrice:0,notes:''});
+  D.categories[ci].collapsed=false; save(); renderCats(); refresh();
+}
+function del(ci,ii){ D.categories[ci].items.splice(ii,1); save(); renderCats(); refresh(); }
+function resetData(){ if(!confirm('Reset everything?')) return; D=defaults(); save(); renderSettings(); renderCats(); refresh(); }
+
+// ═══ DASHBOARD ═══
+let chart1=null;
+function renderDash(){
+  const g=Number(D.settings.plannedGuests)||1,gp=grandPlanned(),ga=grandAdjusted(),rg=Number(D.settings.rsvpGuests)||0;
+  const days=Math.ceil((new Date('2026-06-13')-new Date())/864e5);
+  document.getElementById('dash-cards').innerHTML=`
+    <div class="stat-card"><div class="sc-title">Days</div><div class="sc-num" style="color:#00ffff">${days}</div><div class="sc-sub">June 13, 2026</div></div>
+    <div class="stat-card"><div class="sc-title">Planned</div><div class="sc-num" style="color:#ffff00">${fmt(gp)}</div><div class="sc-sub">${fmt(gp/g)}/guest</div></div>
+    <div class="stat-card"><div class="sc-title">Adjusted</div><div class="sc-num" style="color:#00ffff">${ga!==null?fmt(ga):'--'}</div><div class="sc-sub">${rg?rg+' RSVP\'d':'Awaiting'}</div></div>
+    <div class="stat-card"><div class="sc-title">Guests</div><div class="sc-num" style="color:#00ff88">${g}</div><div class="sc-sub">${pDrinkers()} drinkers</div></div>
+  `;
+  // Compare
+  const comp=document.getElementById('dash-compare');
+  let rows='';
+  D.categories.forEach(c=>{
+    const p=cTotal(c)*(c.cat==='bar'?mm():1), s=rsvpScale(c);
+    const a=s!==null?cTotal(c)*s*(c.cat==='bar'?mm():1):null;
+    rows+=`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-family:Arial;font-size:12px;">
+      <span style="color:#aaa">${c.icon} ${c.name}</span>
+      <span><span style="color:#ffff00">${fmt(p)}</span>${a!==null?' → <span style="color:#00ffff">'+fmt(a)+'</span>':''}</span></div>`;
+  });
+  comp.innerHTML=rows;
+  // Chart
+  const canvas=document.getElementById('chart-cats');
+  if(!canvas) return;
+  const labels=[],pData=[],aData=[];
+  D.categories.forEach(c=>{
+    const m=c.cat==='bar'?mm():1; labels.push(c.name); pData.push(Math.round(cTotal(c)*m));
+    const s=rsvpScale(c); aData.push(s!==null?Math.round(cTotal(c)*s*m):0);
+  });
+  const hasR=Number(D.settings.rsvpGuests)>0;
+  const ds=[{label:'Planned',data:pData,backgroundColor:'rgba(255,255,0,0.25)',borderColor:'#ffff00',borderWidth:1}];
+  if(hasR) ds.push({label:'Adjusted',data:aData,backgroundColor:'rgba(0,255,255,0.25)',borderColor:'#00ffff',borderWidth:1});
+  if(chart1) chart1.destroy();
+  chart1=new Chart(canvas,{type:'bar',data:{labels,datasets:ds},options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#888',font:{size:11}}}},
+    scales:{x:{ticks:{color:'#555',callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#aaa',font:{size:11}},grid:{display:false}}}
+  }});
+}
+
+// ═══ REFRESH ═══
+function refresh(){
+  renderOverview();
+  renderImpact();
+  if(document.getElementById('pg-dashboard').classList.contains('active')) renderDash();
+}
+
+// ═══ INIT ═══
+renderSettings();
+renderCats();
+renderOverview();
+renderImpact();
+</script>
+</body>
+</html>

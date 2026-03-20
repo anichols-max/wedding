@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~*~ Ripley & Aidan's Wedding ~*~ June 13, 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Comic Sans MS", "Chalkboard SE", cursive;
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ctext y='18' font-size='18'%3E🌮%3C/text%3E%3C/svg%3E") 4 4, auto;
+}
+
+/* ═══ FLASH LOADING SCREEN ═══ */
+#flash-loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.8s;
+}
+#flash-loader.fade { opacity: 0; pointer-events: none; }
+.loader-text { font-family: 'Press Start 2P', monospace; color: #00ff00; font-size: 10px; margin-bottom: 20px; }
+.loader-bar-outer {
+  width: 300px; max-width: 80vw; height: 20px;
+  border: 2px solid #00ff00; background: #111;
+}
+.loader-bar-inner { height: 100%; width: 0%; background: #00ff00; transition: width 0.3s; }
+.loader-skip {
+  margin-top: 16px; font-family: Arial; font-size: 10px; color: #555;
+  cursor: pointer; text-decoration: underline;
+}
+
+/* ═══ STARFIELD BG ═══ */
+.starfield {
+  position: fixed; inset: 0; z-index: -1;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+    radial-gradient(2px 2px at 80% 70%, #fff, transparent),
+    radial-gradient(1px 1px at 50% 50%, #fff, transparent),
+    radial-gradient(1px 1px at 10% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 40% 60%, #ff00ff, transparent),
+    radial-gradient(1px 1px at 60% 40%, #00ffff, transparent),
+    radial-gradient(1px 1px at 70% 90%, #ffff00, transparent),
+    radial-gradient(1px 1px at 30% 10%, #ff8800, transparent),
+    radial-gradient(1px 1px at 85% 55%, #00ff00, transparent);
+  background-color: #050520;
+  animation: driftStars 60s linear infinite;
+}
+@keyframes driftStars { 0%{background-position: 0 0;} 100%{background-position: 200px 400px;} }
+
+.site-wrap { max-width: 780px; margin: 0 auto; padding: 10px 12px 40px; position: relative; }
+
+/* ═══ MARQUEE TICKER ═══ */
+.ticker {
+  background: linear-gradient(90deg, #ff0080, #ff8800, #ffff00, #00ff00, #00ffff, #ff00ff);
+  padding: 3px 0;
+}
+.ticker marquee { font-family: 'Press Start 2P', monospace; font-size: 9px; color: #000; font-weight: bold; }
+
+/* ═══ HERO ═══ */
+.hero {
+  text-align: center; padding: 30px 10px 20px;
+  background: radial-gradient(ellipse at center, rgba(255,0,128,0.15) 0%, transparent 70%);
+}
+.hero-names {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 900; font-style: italic;
+  background: linear-gradient(180deg, #ff0080, #ff8800, #ffff00, #00ffff, #ff00ff);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255,0,128,0.6));
+  line-height: 1.1;
+}
+.hero-date {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  color: #00ffff; margin-top: 12px;
+  text-shadow: 0 0 10px #00ffff;
+}
+.hero-sub { color: #ff8800; font-size: 1.1rem; margin-top: 8px; font-style: italic; }
+
+/* ═══ DIVIDERS ═══ */
+.divider {
+  height: 3px; margin: 28px 0;
+  background: linear-gradient(90deg, transparent, #ff00ff, #00ffff, #ffff00, #ff00ff, transparent);
+}
+.divider-thick {
+  height: 6px; margin: 32px 0;
+  background: repeating-linear-gradient(90deg, #ff0080 0px, #ff0080 10px, #000 10px, #000 12px, #ffff00 12px, #ffff00 22px, #000 22px, #000 24px);
+}
+
+.section-title {
+  text-align: center; font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: bold; margin-bottom: 16px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* ═══ PARTY SECTION ═══ */
+.party-hero {
+  text-align: center; padding: 20px;
+  background: linear-gradient(180deg, rgba(255,0,128,0.12), rgba(0,0,0,0));
+  border: 3px solid #ff0080; position: relative;
+}
+.party-hero::after {
+  content: '🌮 🎉 🌮 🎉 🌮';
+  position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+  font-size: 1.2rem; background: #050520; padding: 0 12px;
+}
+.party-venue {
+  font-size: clamp(1.3rem, 4vw, 2rem); color: #ff0080; font-weight: bold;
+  text-shadow: 0 0 15px rgba(255,0,128,0.5);
+}
+.party-date {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.55rem, 2vw, 0.8rem); color: #00ffff; margin: 10px 0;
+}
+.party-address { color: #ccc; font-size: 0.95rem; margin: 6px 0; }
+.floor-badge {
+  display: inline-block; background: #ff0080; color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.6rem, 2vw, 0.85rem);
+  padding: 8px 16px; margin: 12px 0;
+  animation: floorPulse 1.5s ease-in-out infinite; letter-spacing: 2px;
+}
+@keyframes floorPulse {
+  0%,100% { box-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080; }
+  50% { box-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080; }
+}
+.party-note { color: #ff8800; font-size: 0.9rem; font-style: italic; margin-top: 10px; }
+.taco-truck-banner {
+  text-align: center; margin: 20px 0 0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.5rem, 1.8vw, 0.75rem); color: #ffff00;
+  text-shadow: 0 0 8px #ffff00;
+  animation: tacoGlow 2s ease-in-out infinite alternate;
+}
+@keyframes tacoGlow {
+  0% { text-shadow: 0 0 8px #ffff00; }
+  100% { text-shadow: 0 0 20px #ffff00, 0 0 40px #ff8800; }
+}
+
+.ceremony-note {
+  text-align: center; padding: 16px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.03);
+  font-size: 0.9rem; color: #aaa;
+}
+.ceremony-note strong { color: #ccc; }
+
+.worldcup-notice {
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  padding: 12px 16px; font-family: Arial, sans-serif;
+  font-size: 12px; color: #999; text-align: center;
+}
+.worldcup-notice strong { color: #ccc; }
+
+/* ═══ PHOTO SECTION ═══ */
+.photo-section { text-align: center; }
+.qr-frame {
+  display: inline-block; padding: 10px; background: #fff;
+  border: 3px solid #ff0080; box-shadow: 0 0 20px rgba(255,0,128,0.3);
+}
+#qr-photo-box { width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; }
+
+/* ═══ RSVP ═══ */
+.rsvp-container {
+  background: linear-gradient(135deg, rgba(0,255,255,0.06), rgba(255,0,128,0.06));
+  border: 2px solid #00ffff; padding: 24px 20px;
+}
+.rsvp-title {
+  text-align: center; font-family: 'Press Start 2P', monospace;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  color: #00ffff; margin-bottom: 16px; text-shadow: 0 0 10px #00ffff;
+}
+.form-label {
+  display: block; font-family: Arial, sans-serif;
+  font-size: 13px; color: #ccc; margin-bottom: 4px; font-weight: bold;
+}
+.form-input {
+  width: 100%; padding: 10px 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; font-family: "Comic Sans MS", cursive;
+  font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: #00ffff; }
+.form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+.btn {
+  padding: 10px 20px; font-family: 'Press Start 2P', monospace;
+  font-size: 9px; cursor: pointer; border: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+  background: linear-gradient(135deg, #ff0080, #ff8800);
+  color: #fff; box-shadow: 0 0 15px rgba(255,0,128,0.3);
+}
+.btn-primary:hover { box-shadow: 0 0 25px rgba(255,0,128,0.5); }
+.btn-secondary {
+  background: rgba(255,255,255,0.1); color: #ccc;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.count-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+.count-group { display: flex; align-items: center; gap: 8px; }
+.count-group label { font-family: Arial; font-size: 13px; color: #ccc; font-weight: bold; min-width: 60px; }
+.count-btn {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-family: Arial;
+}
+.count-btn:hover { background: rgba(255,255,255,0.2); }
+.count-val {
+  font-family: 'Press Start 2P', monospace; font-size: 14px;
+  color: #00ffff; min-width: 30px; text-align: center;
+}
+
+.diet-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+.diet-option {
+  display: flex; align-items: center; gap: 6px;
+  font-family: Arial; font-size: 13px; color: #ccc; cursor: pointer;
+}
+.diet-option input[type="checkbox"] { accent-color: #ff0080; width: 16px; height: 16px; }
+
+.food-note {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 16px; font-family: Arial; font-size: 13px;
+  color: #aaa; line-height: 1.5;
+}
+.food-note strong { color: #ffff00; }
+.food-note em { color: #ff8800; }
+
+.confirm-table {
+  width: 100%; border-collapse: collapse; margin: 12px 0; font-family: Arial; font-size: 13px;
+}
+.confirm-table th {
+  background: rgba(255,0,128,0.2); color: #ff0080;
+  padding: 8px 10px; text-align: left; font-size: 11px;
+  font-family: 'Press Start 2P', monospace;
+}
+.confirm-table td {
+  padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #ccc;
+}
+.confirm-table td strong { color: #fff; }
+
+#statusMessage {
+  display: none; margin-top: 12px; padding: 10px;
+  font-weight: bold; text-align: center; font-family: Arial;
+}
+
+/* ═══ REGISTRY ═══ */
+.registry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+.fund-card {
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+  padding: 20px 16px; text-align: center; transition: border-color 0.2s;
+}
+.fund-card:hover { border-color: rgba(255,0,128,0.3); }
+.fund-emoji { font-size: 2rem; margin-bottom: 8px; }
+.fund-name { font-family: 'Press Start 2P', monospace; font-size: 9px; color: #ff0080; letter-spacing: 1px; margin-bottom: 6px; }
+.fund-desc { font-family: Arial; font-size: 12px; color: #888; line-height: 1.4; }
+.registry-note {
+  margin-top: 16px; padding: 14px 18px;
+  border: 1px dashed rgba(255,255,255,0.15);
+  font-family: Arial; font-size: 13px; color: #999; text-align: center; line-height: 1.5;
+}
+
+/* ═══ GETTING HERE ═══ */
+.directions-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.dir-card {
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); padding: 16px;
+}
+.dir-card h3 { font-family: 'Press Start 2P', monospace; font-size: 9px; margin-bottom: 10px; }
+.dir-card p { font-family: Arial; font-size: 13px; color: #bbb; margin: 4px 0; line-height: 1.5; }
+.dir-card .addr { color: #fff; font-weight: bold; }
+.parking-badge {
+  display: inline-block; margin-top: 8px; padding: 6px 12px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  font-family: 'Press Start 2P', monospace; font-size: 8px; color: #ffff00;
+}
+.shuttle-info {
+  margin-top: 8px; padding: 10px;
+  background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.15);
+  font-family: Arial; font-size: 12px; color: #aaa;
+}
+
+/* ═══ FOOTER ═══ */
+.site-footer { text-align: center; padding: 24px 10px; font-family: Arial; font-size: 11px; color: #555; }
+.hit-counter {
+  display: inline-block; background: #000; border: 1px solid #333; padding: 2px 8px;
+  font-family: 'Courier New', monospace; font-size: 12px; color: #00ff00; margin: 6px 0;
+}
+.uc-badge {
+  display: inline-block; padding: 4px 12px; font-size: 10px; color: #ffff00;
+  border: 1px dashed #ffff00; margin: 8px 0;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+@keyframes gentlePulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+.webring { font-size: 10px; color: #666; margin: 8px 0; }
+.webring a { color: #ff0080; text-decoration: none; margin: 0 6px; }
+.badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+.badge { padding: 2px 8px; font-size: 9px; font-weight: bold; font-family: Arial; }
+
+/* ═══ YOU'VE GOT MAIL ═══ */
+#ygm-popup {
+  display: none; position: fixed; z-index: 1000;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 340px; max-width: 90vw;
+  background: #1a1a2e; border: 2px solid #ff0080;
+  box-shadow: 0 0 40px rgba(255,0,128,0.3);
+}
+.ygm-header {
+  background: linear-gradient(90deg, #ff0080, #ff8800);
+  padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;
+  font-family: 'Press Start 2P', monospace; font-size: 8px; color: #fff;
+}
+.ygm-close {
+  background: none; border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; width: 18px; height: 18px; cursor: pointer;
+  font-size: 10px; display: flex; align-items: center; justify-content: center;
+}
+.ygm-body { padding: 20px; text-align: center; }
+.ygm-body p { font-family: Arial; font-size: 13px; color: #ccc; margin: 6px 0; line-height: 1.5; }
+.ygm-btns { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
+
+/* ═══ ASSISTANT POPUP ═══ */
+#assistant-popup {
+  display: none; position: fixed; z-index: 999;
+  bottom: 20px; right: 20px; width: 320px; max-width: 85vw;
+  background: #1a1a2e; border: 2px solid #00ffff;
+  box-shadow: 0 0 30px rgba(0,229,255,0.2);
+}
+.asst-header {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  padding: 5px 10px; display: flex; align-items: center; justify-content: space-between;
+  font-family: 'Press Start 2P', monospace; font-size: 7px; color: #000;
+}
+.asst-close {
+  background: none; border: 1px solid rgba(0,0,0,0.3);
+  color: #000; width: 16px; height: 16px; cursor: pointer;
+  font-size: 9px; display: flex; align-items: center; justify-content: center;
+}
+.asst-body { padding: 12px; display: flex; gap: 10px; align-items: flex-start; }
+.asst-char { font-size: 2rem; cursor: pointer; flex-shrink: 0; }
+.asst-bubble { font-family: Arial; font-size: 12px; color: #ccc; line-height: 1.4; flex: 1; }
+.asst-btns { display: flex; gap: 6px; margin-top: 8px; }
+.asst-btn-sm {
+  padding: 3px 8px; font-family: Arial; font-size: 10px;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: #ccc; cursor: pointer;
+}
+.asst-btn-sm:hover { background: rgba(255,255,255,0.2); }
+
+/* ═══ DANCING GUY ═══ */
+.dancing-guy {
+  position: fixed; bottom: 10px; left: 10px; z-index: 50;
+  width: 120px; pointer-events: none;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px rgba(255,0,128,0.4));
+}
+.dancing-guy video { width: 100%; display: block; }
+@media (max-width: 600px) {
+  .dancing-guy { width: 80px; bottom: 6px; left: 6px; }
+}
+
+/* ═══ PIXEL PALS (Pusheen GIFs) ═══ */
+.pixel-pal {
+  pointer-events: none; position: absolute; z-index: 10;
+  image-rendering: pixelated;
+}
+.pixel-pal img { display: block; width: 100%; height: auto; }
+
+/* Sizes */
+.pal-sm img { width: 90px; }
+.pal-md img { width: 120px; }
+.pal-lg img { width: 150px; }
+
+/* ═══ SPRITE SHEET ANIMATIONS ═══ */
+.sprite-pal {
+  position: absolute; z-index: 10; pointer-events: none;
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.sprite-bo-balloon {
+  width: 160px; height: 210px;
+  background-image: url('bo-balloon-sprites.png');
+  background-size: 1280px 210px; /* 8 frames × 160px, aspect ratio 390:512 */
+  animation: spriteBoB 1.6s steps(8) infinite;
+}
+@keyframes spriteBoB {
+  0% { background-position: 0 0; }
+  100% { background-position: -1280px 0; }
+}
+@media (max-width: 500px) {
+  .sprite-bo-balloon { width: 110px; height: 144px; background-size: 880px 144px; }
+  @keyframes spriteBoB { 0% { background-position: 0 0; } 100% { background-position: -880px 0; } }
+}
+
+/* Animations — "alive" feeling with squash/stretch + micro-movements */
+@keyframes palBreathe {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  30% { transform: scaleX(1.04) scaleY(0.96); }
+  60% { transform: scaleX(0.97) scaleY(1.04); }
+}
+@keyframes palHop {
+  0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
+  15% { transform: translateY(0) scaleY(0.88) scaleX(1.08); }
+  30% { transform: translateY(-12px) scaleY(1.08) scaleX(0.95); }
+  50% { transform: translateY(-14px) scaleY(1.05) scaleX(0.97); }
+  70% { transform: translateY(0) scaleY(0.9) scaleX(1.06); }
+  85% { transform: translateY(-3px) scaleY(1.02) scaleX(0.99); }
+}
+@keyframes palWobble {
+  0%, 100% { transform: rotate(0deg) scaleY(1); }
+  20% { transform: rotate(2.5deg) scaleY(0.97); }
+  40% { transform: rotate(-2deg) scaleY(1.02); }
+  60% { transform: rotate(1.5deg) scaleY(0.98); }
+  80% { transform: rotate(-1deg) scaleY(1.01); }
+}
+@keyframes palBounce {
+  0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
+  25% { transform: translateY(-8px) scaleY(1.06) scaleX(0.96); }
+  50% { transform: translateY(0) scaleY(0.92) scaleX(1.05); }
+  75% { transform: translateY(-4px) scaleY(1.03) scaleX(0.98); }
+}
+@keyframes palPurr {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.03) rotate(1deg); }
+  50% { transform: scale(0.97) rotate(0deg); }
+  75% { transform: scale(1.02) rotate(-1deg); }
+}
+@keyframes palNod {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  30% { transform: rotate(2deg) translateY(-3px); }
+  50% { transform: rotate(-1deg) translateY(1px); }
+  70% { transform: rotate(1.5deg) translateY(-2px); }
+}
+
+.anim-breathe { animation: palBreathe 2.8s ease-in-out infinite; transform-origin: bottom center; }
+.anim-hop { animation: palHop 2s ease-in-out infinite; transform-origin: bottom center; }
+.anim-wobble { animation: palWobble 2.2s ease-in-out infinite; transform-origin: bottom center; }
+.anim-bounce { animation: palBounce 1.8s ease-in-out infinite; transform-origin: bottom center; }
+.anim-purr { animation: palPurr 2.5s ease-in-out infinite; transform-origin: center center; }
+.anim-nod { animation: palNod 2.4s ease-in-out infinite; transform-origin: bottom center; }
+
+/* Section wrappers need relative for positioning */
+.section-relative { position: relative; overflow: visible; }
+
+@media (max-width: 500px) {
+  .site-wrap { padding: 6px 8px 30px; }
+  .rsvp-container, .party-hero { padding: 16px 12px; }
+  .count-row { flex-direction: column; gap: 10px; }
+  .registry-grid { grid-template-columns: 1fr; }
+  .pal-sm img { width: 65px; }
+  .pal-md img { width: 85px; }
+  .pal-lg img { width: 105px; }
+  .pal-hide-mobile { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ FLASH LOADING SCREEN ═══ -->
+<div id="flash-loader">
+  <div class="loader-text">LOADING ripley_aidan_wedding.swf ...</div>
+  <div class="loader-bar-outer"><div class="loader-bar-inner" id="loader-bar"></div></div>
+  <div class="loader-text" style="margin-top:8px; font-size:8px; color:#555;" id="loader-pct">0%</div>
+  <div class="loader-skip" onclick="skipLoader()">[ SKIP ]</div>
+</div>
+
+<div class="starfield"></div>
+
+<div class="ticker">
+  <marquee scrollamount="5">
+    ★ RIPLEY & AIDAN ARE GETTING MARRIED ★ JUNE 13, 2026 ★ PHILADELPHIA PA ★ TACO TRUCK CONFIRMED ★ 2ND FLOOR ★ PLEASE RSVP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 ★
+  </marquee>
+</div>
+
+<div class="site-wrap">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero section-relative">
+    <div style="font-size:2rem; margin-bottom:8px;">✨ 💍 ✨</div>
+    <div class="hero-names">Ripley & Aidan</div>
+    <div class="hero-date">JUNE 13, 2026 · PHILADELPHIA</div>
+    <div class="hero-sub">are getting married!!!</div>
+    <!-- Bo Balloon — true sprite animation -->
+    <div class="sprite-pal sprite-bo-balloon" style="top:10px; right:-10px;"></div>
+  </div>
+
+  <div class="divider-thick"></div>
+
+  <!-- ═══ THE PARTY ═══ -->
+  <div class="section-title" style="color:#ff0080;">🎉 The Party 🎉</div>
+
+  <div class="party-hero section-relative">
+    <div class="party-venue">The Lithuanian Music Hall</div>
+    <div class="party-date">SATURDAY, JUNE 13TH, 2026</div>
+    <div class="party-address">2715 E Allegheny Ave</div>
+    <div class="party-address">Philadelphia, PA 19134</div>
+    <div class="floor-badge">⬆ 2ND FLOOR ⬆</div>
+    <div class="party-note">Dinner, dancing, tacos & all your faves</div>
+    <div class="taco-truck-banner">🌮 TACO TRUCK · 4 HOURS · 200+ GUESTS 🌮</div>
+    <!-- Treasure (taco Pusheen) near the taco banner -->
+    <div class="pixel-pal pal-sm anim-hop" style="bottom:-30px; left:10px;"><img src="Treasure.gif" alt=""></div>
+    <!-- Bo Stormy waving near party -->
+    <div class="video-pal" style="position:absolute; bottom:-40px; right:10px; width:180px; pointer-events:none; z-index:10;">
+      <video autoplay loop muted playsinline style="width:100%; display:block;">
+        <source src="bo-stormy.webm" type="video/webm">
+      </video>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ CEREMONY NOTE ═══ -->
+  <div class="ceremony-note">
+    <p>💍 <strong>The Ceremony</strong> will take place the day before — <strong>Friday, June 12th, 2026</strong> — and is a private, intimate gathering for immediate family.</p>
+    <p style="margin-top:8px; font-size:0.8rem; color:#777;">The party on Saturday is the main event and where we want to celebrate with all of you!</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ WORLD CUP ═══ -->
+  <div class="worldcup-notice">
+    <p>⚽ <strong>Heads up:</strong> Our wedding weekend overlaps with FIFA World Cup matches in Philadelphia. Hotels and flights may be pricier than usual — <strong>book early</strong> if you're traveling in! ⚽</p>
+  </div>
+
+  <div class="divider-thick"></div>
+
+  <!-- ═══ RSVP ═══ -->
+  <div class="rsvp-container section-relative" id="rsvp-section">
+    <div class="rsvp-title">💌 RSVP 💌</div>
+
+    <!-- THE FORM -->
+    <div id="rsvp-form">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div>
+          <label class="form-label">First Name *</label>
+          <input type="text" id="rsvp-first" class="form-input" placeholder="First name" required>
+        </div>
+        <div>
+          <label class="form-label">Last Name *</label>
+          <input type="text" id="rsvp-last" class="form-input" placeholder="Last name" required>
+        </div>
+      </div>
+
+      <div class="count-row">
+        <div class="count-group">
+          <label>🧑 Adults</label>
+          <button class="count-btn" onclick="adjustCount('adults',-1)">−</button>
+          <span class="count-val" id="count-adults">1</span>
+          <button class="count-btn" onclick="adjustCount('adults',1)">+</button>
+        </div>
+        <div class="count-group">
+          <label>👶 Kids</label>
+          <button class="count-btn" onclick="adjustCount('kids',-1)">−</button>
+          <span class="count-val" id="count-kids">0</span>
+          <button class="count-btn" onclick="adjustCount('kids',1)">+</button>
+        </div>
+      </div>
+
+      <div style="margin:18px 0;">
+        <p style="font-family:Arial; font-size:13px; color:#ccc; font-weight:bold; margin-bottom:8px;">🌱 Dietary Needs:</p>
+        <div class="diet-grid">
+          <label class="diet-option"><input type="checkbox" id="is_vegetarian"> 🥦 Vegetarian</label>
+          <label class="diet-option"><input type="checkbox" id="is_vegan"> 🌿 Vegan</label>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label class="form-label">⚠️ Dietary Restrictions / Allergies</label>
+        <input id="allergies" type="text" class="form-input" placeholder="e.g. nuts, gluten-free, shellfish... or None">
+      </div>
+
+      <div class="food-note section-relative">
+        <strong>🌮 The food is tacos!</strong> Our taco truck will be serving for 4 hours straight.<br><br>
+        Just let us know if your party is <em>vegetarian</em> or <em>vegan</em> so we can make sure there are options for everyone. Any other concerns, drop them above!
+        <!-- Picnic near the food note -->
+        <div class="pixel-pal pal-sm anim-bounce" style="bottom:-25px; left:50%; margin-left:-30px;"><img src="Picnic.gif" alt=""></div>
+      </div>
+
+      <div style="text-align:center; margin-top:20px;">
+        <button class="btn btn-primary" id="submitBtn" onclick="submitRSVP()" style="font-size:11px; padding:14px 32px;">✉️ SUBMIT RSVP</button>
+      </div>
+      <div id="statusMessage"></div>
+      <!-- Pusheen Cookie near RSVP submit -->
+      <div class="pixel-pal pal-sm anim-purr" style="bottom:-20px; right:20px;"><img src="Pusheen%20Cookie.gif" alt=""></div>
+    </div>
+
+    <!-- DONE -->
+    <div id="rsvp-done" style="display:none; text-align:center;">
+      <p style="font-size:2rem; margin:12px 0;">💌 🎉 🌮</p>
+      <h3 id="done-name" style="color:#ff0080; font-family:Arial; font-size:1.2rem; margin:10px 0;"></h3>
+      <p style="font-family:Arial; font-size:14px; color:#ccc;">Your RSVP has been received! We can't wait to see you there!</p>
+      <p style="font-family:Arial; font-size:12px; color:#777; margin-top:6px;">See you June 13th! 🥂</p>
+    </div>
+  </div>
+
+  <div class="divider-thick"></div>
+
+  <!-- ═══ GETTING HERE ═══ -->
+  <div class="section-relative">
+    <div class="section-title" style="color:#ffff00;">🗺️ Getting Here</div>
+    <div id="getting-here-container"></div>
+    <!-- Cheek Garden near directions -->
+    <div class="pixel-pal pal-md anim-nod pal-hide-mobile" style="top:0; right:-20px;"><img src="Cheek%20Garden.gif" alt=""></div>
+  </div>
+
+  <div class="divider-thick"></div>
+
+  <!-- ═══ REGISTRY ═══ -->
+  <div class="section-relative" style="display:inline;">
+    <div class="section-title" style="color:#ffff00;">🎁 Registry</div>
+    <!-- Pip Yarn near registry -->
+    <div class="pixel-pal pal-sm anim-hop" style="top:0; left:-15px;"><img src="Pip%20Yarn.gif" alt=""></div>
+  </div>
+
+  <div class="registry-note">
+    Your presence at our wedding is the greatest gift we could ask for — seriously, that's it.<br>
+    But if you'd like to contribute to our next chapter, here are a few things we're saving for:
+  </div>
+
+  <div class="registry-grid">
+    <div class="fund-card">
+      <div class="fund-emoji">🏖️</div>
+      <div class="fund-name">Honeymoon</div>
+      <div class="fund-desc">Help us get away somewhere warm after the big day</div>
+    </div>
+    <div class="fund-card">
+      <div class="fund-emoji">🚗</div>
+      <div class="fund-name">Car Fund</div>
+      <div class="fund-desc">Our car needs some love — or maybe a replacement</div>
+    </div>
+    <div class="fund-card">
+      <div class="fund-emoji">🏠</div>
+      <div class="fund-name">Home Fund</div>
+      <div class="fund-desc">Saving up for our first place together</div>
+    </div>
+    <div class="fund-card">
+      <div class="fund-emoji">🌮</div>
+      <div class="fund-name">Date Nights</div>
+      <div class="fund-desc">Keep the tacos (and romance) going after the wedding</div>
+    </div>
+  </div>
+
+  <div class="registry-note" style="margin-top:16px;">
+    No pressure at all. We mean it. Just come and dance.<br>
+    But if you'd like to send something, here's how:
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; max-width:500px; margin-left:auto; margin-right:auto;">
+    <!-- Venmo -->
+    <div class="fund-card" style="padding:24px 16px;">
+      <div class="fund-emoji">💙</div>
+      <div class="fund-name" style="color:#008CFF;">Venmo</div>
+      <div class="qr-frame" style="margin:12px auto; border-color:#008CFF; box-shadow:0 0 15px rgba(0,140,255,0.2);">
+        <div id="qr-venmo-box" style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;"></div>
+      </div>
+      <a href="https://venmo.com/u/aidannichols" target="_blank" style="font-family:Arial; font-size:13px; color:#008CFF; text-decoration:none;">@aidannichols</a>
+    </div>
+    <!-- Zelle -->
+    <div class="fund-card" style="padding:24px 16px;">
+      <div class="fund-emoji">💜</div>
+      <div class="fund-name" style="color:#6D1ED4;">Zelle</div>
+      <div style="margin:12px 0; padding:16px; border:1px dashed rgba(109,30,212,0.3); text-align:center;">
+        <p style="font-family:Arial; font-size:12px; color:#999; margin-bottom:6px;">Send to:</p>
+        <p style="font-family:'Press Start 2P', monospace; font-size:8px; color:#6D1ED4; letter-spacing:1px; word-break:break-all;">aidannichols2@gmail.com</p>
+      </div>
+      <p style="font-family:Arial; font-size:11px; color:#666;">Available in most banking apps</p>
+    </div>
+  </div>
+
+  <div class="divider-thick"></div>
+
+  <!-- ═══ PHOTOS ═══ -->
+  <div class="photo-section section-relative">
+    <div class="section-title" style="color:#00ffff;">📸 Photo Album</div>
+    <p style="color:#aaa; font-size:14px; margin-bottom:16px;">Took pics at the wedding? Add them to our shared album!</p>
+    <a href="#" id="photo-link" target="_blank" style="display:inline-block;">
+      <div class="qr-frame"><div id="qr-photo-box"></div></div>
+    </a>
+    <p id="photo-url-text" style="font-size:10px; color:#555; font-family:'Courier New'; margin-top:8px;"></p>
+    <p style="font-family:Arial; font-size:12px; color:#666; margin-top:6px;">Tap the QR code or scan it with your phone camera</p>
+    <!-- Stormy Tea near photos -->
+    <div class="pixel-pal pal-sm anim-breathe" style="bottom:0; right:10px;"><img src="Stormy%20Tea.gif" alt=""></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="site-footer section-relative">
+    <p style="color:#777;">You are visitor number:</p>
+    <div class="hit-counter" id="hit-counter">00001</div>
+    <br>
+    <div class="uc-badge">🚧 UNDER CONSTRUCTION 🚧</div>
+    <br>
+    <div class="badge-row">
+      <span class="badge" style="background:#ff0080; color:#fff;">⭐ Best Wedding Site '26</span>
+      <span class="badge" style="background:#00ff00; color:#000;">🏆 Taco Approved</span>
+    </div>
+    <br>
+    <div class="webring"><a href="#">←</a> Philadelphia Wedding Webring <a href="#">→</a></div>
+    <br>
+    <p>© 2026 Ripley & Aidan · All Rights Reserved</p>
+    <p style="color:#333; margin-top:4px;">Best viewed in Netscape Navigator 4.0 at 800×600</p>
+    <p style="margin-top:10px; font-size:1rem; letter-spacing:6px;">💜 💍 💜</p>
+    <!-- Duncan Donuts in the footer -->
+    <div class="pixel-pal pal-sm anim-wobble" style="bottom:10px; left:10px;"><img src="Duncan%20Donuts.gif" alt=""></div>
+  </div>
+
+</div>
+
+<!-- ═══ YOU'VE GOT MAIL POPUP ═══ -->
+<div id="ygm-popup">
+  <div class="ygm-header">
+    <span>📬 You've Got Mail!</span>
+    <button class="ygm-close" onclick="closeYGM()">✕</button>
+  </div>
+  <div class="ygm-body">
+    <div style="font-size:2rem; margin-bottom:10px;">💌</div>
+    <p><strong>1 new invitation</strong></p>
+    <p style="font-size:12px; color:#888;">From: ripley_aidan_wedding<br>Subject: You're Invited! 💍</p>
+    <div class="ygm-btns">
+      <button class="btn btn-primary" onclick="readYGM()" style="font-size:8px;">Open & RSVP >></button>
+      <button class="btn btn-secondary" onclick="closeYGM()" style="font-size:8px;">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ASSISTANT POPUP ═══ -->
+<div id="assistant-popup">
+  <div class="asst-header">
+    <span id="asst-title">WeddingHelper.exe</span>
+    <button class="asst-close" onclick="dismissAssistant()">✕</button>
+  </div>
+  <div class="asst-body">
+    <div class="asst-char" id="asst-char" onclick="cycleAssistantMsg()">🪄</div>
+    <div>
+      <div class="asst-bubble" id="asst-msg">Loading...</div>
+      <div class="asst-btns">
+        <button class="asst-btn-sm" onclick="cycleAssistantMsg()">Next tip ></button>
+        <button class="asst-btn-sm" onclick="dismissAssistant()">Dismiss</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DANCING GUY ═══ -->
+<div class="dancing-guy">
+  <video autoplay loop muted playsinline>
+    <source src="dancing-guy.webm" type="video/webm">
+  </video>
+</div>
+
+<script>
+const CONFIG = {
+  webhookUrl: "https://script.google.com/macros/s/AKfycbw__PlvqbA6ICApTf5QK3NG9LblktH6l_9kvT7J_aqG7lxgaMlzRP2YQIfaFnU_r1mpXQ/exec",
+  photoUrl: "YOUR_GOOGLE_PHOTOS_LINK_HERE"
+};
+
+const ASSISTANTS = [
+  {
+    id: 'wizard', emoji: '🪄', title: 'WeddingWizard.exe',
+    messages: [
+      "Welcome to Ripley & Aidan's WEDDING PAGE!! Scroll down for all the details!! 🪄",
+      "Did you know: There will be a REAL TACO TRUCK serving for FOUR HOURS?? This is not a drill!!",
+      "Important: The party is on the 2ND FLOOR of the Lithuanian Music Hall. Do not go to the 1st floor!!"
+    ]
+  },
+  {
+    id: 'clippy', emoji: '📎', title: 'Clipsworth — Wedding Assistant',
+    messages: [
+      "It looks like you're trying to RSVP!! Scroll down to the RSVP section!! 📋",
+      "Tip: Let us know if you're vegetarian or vegan so we can make sure the taco truck has options for you!!",
+      "Don't forget to RSVP before the deadline!! We need an accurate headcount!! 📎"
+    ]
+  },
+  {
+    id: 'taco', emoji: '🌮', title: 'Taco Terry — Food Correspondent',
+    messages: [
+      "BREAKING: Four-hour taco truck. 200+ guests. This is the event of the year. RSVP immediately. 🌮",
+      "Taco Terry here: Vegetarian and vegan options WILL be available. Nobody gets left behind!!",
+      "The taco truck is CONFIRMED. I repeat: CONFIRMED. See you on June 13th. 🌮🌮🌮"
+    ]
+  }
+];
+
+// ═══ FLASH LOADER ═══
+let loaderDone = false;
+function runLoader() {
+  const bar = document.getElementById('loader-bar');
+  const pct = document.getElementById('loader-pct');
+  let progress = 0;
+  const interval = setInterval(() => {
+    if (loaderDone) { clearInterval(interval); return; }
+    progress += Math.random() * 15 + 5;
+    if (progress >= 100) { progress = 100; clearInterval(interval); setTimeout(finishLoader, 400); }
+    bar.style.width = progress + '%';
+    pct.textContent = Math.floor(progress) + '%';
+  }, 200);
+}
+function finishLoader() {
+  if (loaderDone) return; loaderDone = true;
+  const loader = document.getElementById('flash-loader');
+  loader.classList.add('fade');
+  setTimeout(() => loader.style.display = 'none', 800);
+}
+function skipLoader() { finishLoader(); }
+runLoader();
+
+// ═══ GETTING HERE ═══
+document.getElementById('getting-here-container').innerHTML = `
+  <div class="directions-grid">
+    <div class="dir-card">
+      <h3 style="color:#ff0080;">🎉 The Party — Lithuanian Music Hall</h3>
+      <p class="addr">2715 E Allegheny Ave</p>
+      <p class="addr">Philadelphia, PA 19134</p>
+      <p style="margin-top:6px;"><span style="color:#ff0080; font-weight:bold; font-family:'Press Start 2P',monospace; font-size:9px;">⬆ 2ND FLOOR ⬆</span></p>
+      <p style="margin-top:6px;">Port Richmond neighborhood. Head upstairs when you arrive!</p>
+    </div>
+    <div class="dir-card">
+      <h3 style="color:#ffff00;">🅿️ Parking</h3>
+      <div class="parking-badge">DETAILS COMING SOON</div>
+      <p style="margin-top:8px;">We are securing a dedicated parking lot nearby. Check back for the address!</p>
+      <div class="shuttle-info">
+        🚐 <strong>Shuttle Service:</strong> A shuttle will run from the parking lot to the venue. Schedule and pickup location TBD — check back closer to the date!
+      </div>
+    </div>
+  </div>
+`;
+
+// ═══ QR CODES ═══
+(function() {
+  // Photo album QR
+  const box = document.getElementById('qr-photo-box');
+  const link = document.getElementById('photo-link');
+  const txt = document.getElementById('photo-url-text');
+  if (CONFIG.photoUrl !== 'YOUR_GOOGLE_PHOTOS_LINK_HERE') {
+    link.href = CONFIG.photoUrl;
+    txt.textContent = CONFIG.photoUrl;
+    new QRCode(box, { text: CONFIG.photoUrl, width: 148, height: 148, colorDark: '#ff0080', colorLight: '#ffffff' });
+  } else {
+    box.innerHTML = '<div style="width:148px;height:148px;display:flex;align-items:center;justify-content:center;background:#1a1a2e;color:#555;font-family:Arial;font-size:11px;text-align:center;padding:10px;border:1px dashed #333;">Set photoUrl<br>in CONFIG to<br>generate QR</div>';
+    txt.textContent = 'Photo album link coming soon';
+    link.style.cursor = 'default';
+  }
+  // Venmo QR
+  new QRCode(document.getElementById('qr-venmo-box'), {
+    text: 'https://venmo.com/u/aidannichols',
+    width: 118, height: 118, colorDark: '#008CFF', colorLight: '#ffffff'
+  });
+})();
+
+// ═══ HIT COUNTER ═══
+const visits = parseInt(localStorage.getItem('ra_visits') || '1336') + 1;
+localStorage.setItem('ra_visits', visits);
+document.getElementById('hit-counter').textContent = String(visits).padStart(5, '0');
+
+// ═══ RSVP ═══
+let rsvpState = { adults: 1, kids: 0 };
+
+function adjustCount(type, delta) {
+  if (type === 'adults') {
+    rsvpState.adults = Math.max(0, rsvpState.adults + delta);
+    document.getElementById('count-adults').textContent = rsvpState.adults;
+  } else {
+    rsvpState.kids = Math.max(0, rsvpState.kids + delta);
+    document.getElementById('count-kids').textContent = rsvpState.kids;
+  }
+}
+
+async function submitRSVP() {
+  const first = document.getElementById('rsvp-first').value.trim();
+  const last = document.getElementById('rsvp-last').value.trim();
+  if (!first || !last) { alert('Please enter your first and last name.'); return; }
+  if (rsvpState.adults + rsvpState.kids === 0) { alert('Please add at least 1 person.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.innerHTML = '⏳ Sending...';
+  document.getElementById('statusMessage').style.display = 'none';
+
+  const total = rsvpState.adults + rsvpState.kids;
+  const payload = new URLSearchParams();
+  payload.append('party_name', first + ' ' + last);
+  payload.append('party_members', first + ' ' + last);
+  payload.append('email', '');
+  payload.append('adults', rsvpState.adults);
+  payload.append('kids', rsvpState.kids);
+  payload.append('total_guests', total);
+  payload.append('food_per_person', '');
+  payload.append('food_aggregated', '');
+  payload.append('is_vegetarian', document.getElementById('is_vegetarian').checked ? 'yes' : 'no');
+  payload.append('is_vegan', document.getElementById('is_vegan').checked ? 'yes' : 'no');
+  payload.append('is_glutenfree', 'no');
+  payload.append('allergies', document.getElementById('allergies').value.trim() || 'None');
+  payload.append('submitted_at', new Date().toISOString());
+
+  try {
+    await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', body: payload });
+    document.getElementById('rsvp-form').style.display = 'none';
+    document.getElementById('rsvp-done').style.display = 'block';
+    document.getElementById('done-name').textContent = '🎉 ' + first + ' ' + last + ' — you\'re on the list! 🎉';
+  } catch (err) {
+    const el = document.getElementById('statusMessage');
+    el.textContent = '❌ Something went wrong. Try again or contact us directly.';
+    el.style.display = 'block'; el.style.background = '#ff0040'; el.style.color = '#fff';
+    btn.disabled = false; btn.innerHTML = '✉️ SUBMIT RSVP';
+  }
+}
+
+// ═══ YOU'VE GOT MAIL ═══
+const ygmKey = 'ra_ygm_shown';
+function showYGM() { if (sessionStorage.getItem(ygmKey)) return; document.getElementById('ygm-popup').style.display = 'block'; }
+function closeYGM() { document.getElementById('ygm-popup').style.display = 'none'; sessionStorage.setItem(ygmKey, '1'); }
+function readYGM() { closeYGM(); document.getElementById('rsvp-section').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+setTimeout(showYGM, 8000);
+
+// ═══ ASSISTANTS ═══
+let assistantQueue = [], currentAsst = null, currentMsgIndex = 0;
+const dismissedKey = 'ra_asst_dismissed';
+function initAssistants() {
+  const d = JSON.parse(sessionStorage.getItem(dismissedKey) || '[]');
+  assistantQueue = ASSISTANTS.filter(a => !d.includes(a.id)).map(a => a.id);
+}
+function showNextAssistant() {
+  if (!assistantQueue.length) return;
+  currentAsst = ASSISTANTS.find(a => a.id === assistantQueue[0]);
+  currentMsgIndex = 0; renderAssistant();
+  document.getElementById('assistant-popup').style.display = 'block';
+}
+function renderAssistant() {
+  if (!currentAsst) return;
+  document.getElementById('asst-title').textContent = currentAsst.title;
+  document.getElementById('asst-char').textContent = currentAsst.emoji;
+  document.getElementById('asst-msg').textContent = currentAsst.messages[currentMsgIndex];
+}
+function cycleAssistantMsg() {
+  if (!currentAsst) return;
+  currentMsgIndex = (currentMsgIndex + 1) % currentAsst.messages.length;
+  renderAssistant();
+}
+function dismissAssistant() {
+  if (!currentAsst) return;
+  const d = JSON.parse(sessionStorage.getItem(dismissedKey) || '[]');
+  d.push(currentAsst.id); sessionStorage.setItem(dismissedKey, JSON.stringify(d));
+  assistantQueue.shift();
+  document.getElementById('assistant-popup').style.display = 'none';
+  currentAsst = null;
+}
+initAssistants();
+setTimeout(() => showNextAssistant(), 3000);
+const rsvpObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !currentAsst) {
+      const i = assistantQueue.indexOf('clippy');
+      if (i > -1) { assistantQueue.splice(i,1); assistantQueue.unshift('clippy'); showNextAssistant(); rsvpObs.disconnect(); }
+    }
+  });
+}, { threshold: 0.3 });
+rsvpObs.observe(document.getElementById('rsvp-section'));
+setTimeout(() => {
+  if (!currentAsst && assistantQueue.includes('taco')) {
+    const i = assistantQueue.indexOf('taco');
+    assistantQueue.splice(i,1); assistantQueue.unshift('taco'); showNextAssistant();
+  }
+}, 50000);
+</script>
+</body>
+</html>
