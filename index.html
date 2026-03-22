@@ -410,52 +410,48 @@ body {
   @keyframes spriteBoB { 0% { background-position: 0 0; } 100% { background-position: -880px 0; } }
 }
 
-/* Animations — "alive" feeling with squash/stretch + micro-movements */
-@keyframes palBreathe {
-  0%, 100% { transform: scaleX(1) scaleY(1); }
-  30% { transform: scaleX(1.04) scaleY(0.96); }
-  60% { transform: scaleX(0.97) scaleY(1.04); }
-}
-@keyframes palHop {
-  0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
-  15% { transform: translateY(0) scaleY(0.88) scaleX(1.08); }
-  30% { transform: translateY(-12px) scaleY(1.08) scaleX(0.95); }
-  50% { transform: translateY(-14px) scaleY(1.05) scaleX(0.97); }
-  70% { transform: translateY(0) scaleY(0.9) scaleX(1.06); }
-  85% { transform: translateY(-3px) scaleY(1.02) scaleX(0.99); }
-}
-@keyframes palWobble {
-  0%, 100% { transform: rotate(0deg) scaleY(1); }
-  20% { transform: rotate(2.5deg) scaleY(0.97); }
-  40% { transform: rotate(-2deg) scaleY(1.02); }
-  60% { transform: rotate(1.5deg) scaleY(0.98); }
-  80% { transform: rotate(-1deg) scaleY(1.01); }
-}
-@keyframes palBounce {
-  0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
-  25% { transform: translateY(-8px) scaleY(1.06) scaleX(0.96); }
-  50% { transform: translateY(0) scaleY(0.92) scaleX(1.05); }
-  75% { transform: translateY(-4px) scaleY(1.03) scaleX(0.98); }
-}
-@keyframes palPurr {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.03) rotate(1deg); }
-  50% { transform: scale(0.97) rotate(0deg); }
-  75% { transform: scale(1.02) rotate(-1deg); }
-}
-@keyframes palNod {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  30% { transform: rotate(2deg) translateY(-3px); }
-  50% { transform: rotate(-1deg) translateY(1px); }
-  70% { transform: rotate(1.5deg) translateY(-2px); }
+/* ═══ CHARACTER SPRITE SHEETS ═══ */
+.sprite-treasure { width:103px; height:95px; background-image:url('treasure-sprites.png'); background-size:824px 95px; animation: sprite-treasure 1.6s steps(8) infinite; }
+@keyframes sprite-treasure { 0%{background-position:0 0} 100%{background-position:-824px 0} }
+.sprite-picnic { width:106px; height:82px; background-image:url('picnic-sprites.png'); background-size:848px 82px; animation: sprite-picnic 1.8s steps(8) infinite; }
+@keyframes sprite-picnic { 0%{background-position:0 0} 100%{background-position:-848px 0} }
+.sprite-pusheen-cookie { width:104px; height:93px; background-image:url('pusheen-cookie-sprites.png'); background-size:832px 93px; animation: sprite-pusheen-cookie 1.4s steps(8) infinite; }
+@keyframes sprite-pusheen-cookie { 0%{background-position:0 0} 100%{background-position:-832px 0} }
+.sprite-duncan-donuts { width:106px; height:64px; background-image:url('duncan-donuts-sprites.png'); background-size:848px 64px; animation: sprite-duncan-donuts 2s steps(8) infinite; }
+@keyframes sprite-duncan-donuts { 0%{background-position:0 0} 100%{background-position:-848px 0} }
+.sprite-cheek-garden { width:103px; height:84px; background-image:url('cheek-garden-sprites.png'); background-size:824px 84px; animation: sprite-cheek-garden 2s steps(8) infinite; }
+@keyframes sprite-cheek-garden { 0%{background-position:0 0} 100%{background-position:-824px 0} }
+.sprite-pip-yarn { width:104px; height:92px; background-image:url('pip-yarn-sprites.png'); background-size:832px 92px; animation: sprite-pip-yarn 1.6s steps(8) infinite; }
+@keyframes sprite-pip-yarn { 0%{background-position:0 0} 100%{background-position:-832px 0} }
+.sprite-stormy-tea { width:103px; height:103px; background-image:url('stormy-tea-sprites.png'); background-size:824px 103px; animation: sprite-stormy-tea 2.8s steps(8) infinite; }
+@keyframes sprite-stormy-tea { 0%{background-position:0 0} 100%{background-position:-824px 0} }
+
+@media (max-width: 500px) {
+  .sprite-treasure { width:70px; height:64px; background-size:560px 64px; }
+  @keyframes sprite-treasure { 0%{background-position:0 0} 100%{background-position:-560px 0} }
+  .sprite-picnic { width:72px; height:56px; background-size:576px 56px; }
+  @keyframes sprite-picnic { 0%{background-position:0 0} 100%{background-position:-576px 0} }
+  .sprite-pusheen-cookie { width:70px; height:63px; background-size:560px 63px; }
+  @keyframes sprite-pusheen-cookie { 0%{background-position:0 0} 100%{background-position:-560px 0} }
+  .sprite-duncan-donuts { width:72px; height:43px; background-size:576px 43px; }
+  @keyframes sprite-duncan-donuts { 0%{background-position:0 0} 100%{background-position:-576px 0} }
+  .sprite-cheek-garden { width:70px; height:57px; background-size:560px 57px; }
+  @keyframes sprite-cheek-garden { 0%{background-position:0 0} 100%{background-position:-560px 0} }
+  .sprite-pip-yarn { width:70px; height:62px; background-size:560px 62px; }
+  @keyframes sprite-pip-yarn { 0%{background-position:0 0} 100%{background-position:-560px 0} }
+  .sprite-stormy-tea { width:70px; height:70px; background-size:560px 70px; }
+  @keyframes sprite-stormy-tea { 0%{background-position:0 0} 100%{background-position:-560px 0} }
 }
 
-.anim-breathe { animation: palBreathe 2.8s ease-in-out infinite; transform-origin: bottom center; }
-.anim-hop { animation: palHop 2s ease-in-out infinite; transform-origin: bottom center; }
-.anim-wobble { animation: palWobble 2.2s ease-in-out infinite; transform-origin: bottom center; }
-.anim-bounce { animation: palBounce 1.8s ease-in-out infinite; transform-origin: bottom center; }
-.anim-purr { animation: palPurr 2.5s ease-in-out infinite; transform-origin: center center; }
-.anim-nod { animation: palNod 2.4s ease-in-out infinite; transform-origin: bottom center; }
+/* ═══ PHOTO WIZARD ═══ */
+.wizard-box {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(0,255,255,0.2);
+  padding: 16px; margin: 16px 0; text-align: left;
+}
+.wizard-phase { margin: 10px 0; padding: 12px; border-left: 3px solid #ff0080; }
+.wizard-phase.active { border-left-color: #00ff00; background: rgba(0,255,0,0.05); }
+.wizard-phase h4 { font-family: 'Press Start 2P', monospace; font-size: 8px; margin-bottom: 6px; }
+.wizard-phase p { font-family: Arial; font-size: 13px; color: #bbb; line-height: 1.5; }
 
 /* Section wrappers need relative for positioning */
 .section-relative { position: relative; overflow: visible; }
@@ -516,7 +512,7 @@ body {
     <div class="party-note">Dinner, dancing, tacos & all your faves</div>
     <div class="taco-truck-banner">🌮 TACO TRUCK · 4 HOURS · 200+ GUESTS 🌮</div>
     <!-- Treasure (taco Pusheen) near the taco banner -->
-    <div class="pixel-pal pal-sm anim-hop" style="bottom:-30px; left:10px;"><img src="Treasure.gif" alt=""></div>
+    <div class="sprite-pal sprite-treasure" style="bottom:-30px; left:10px;"></div>
     <!-- Bo Stormy waving near party -->
     <div class="video-pal" style="position:absolute; bottom:-40px; right:10px; width:180px; pointer-events:none; z-index:10;">
       <video autoplay loop muted playsinline style="width:100%; display:block;">
@@ -591,7 +587,7 @@ body {
         <strong>🌮 The food is tacos!</strong> Our taco truck will be serving for 4 hours straight.<br><br>
         Just let us know if your party is <em>vegetarian</em> or <em>vegan</em> so we can make sure there are options for everyone. Any other concerns, drop them above!
         <!-- Picnic near the food note -->
-        <div class="pixel-pal pal-sm anim-bounce" style="bottom:-25px; left:50%; margin-left:-30px;"><img src="Picnic.gif" alt=""></div>
+        <div class="sprite-pal sprite-picnic" style="bottom:-25px; left:50%; margin-left:-40px;"></div>
       </div>
 
       <div style="text-align:center; margin-top:20px;">
@@ -599,7 +595,7 @@ body {
       </div>
       <div id="statusMessage"></div>
       <!-- Pusheen Cookie near RSVP submit -->
-      <div class="pixel-pal pal-sm anim-purr" style="bottom:-20px; right:20px;"><img src="Pusheen%20Cookie.gif" alt=""></div>
+      <div class="sprite-pal sprite-pusheen-cookie" style="bottom:-20px; right:20px;"></div>
     </div>
 
     <!-- DONE -->
@@ -618,7 +614,7 @@ body {
     <div class="section-title" style="color:#ffff00;">🗺️ Getting Here</div>
     <div id="getting-here-container"></div>
     <!-- Cheek Garden near directions -->
-    <div class="pixel-pal pal-md anim-nod pal-hide-mobile" style="top:0; right:-20px;"><img src="Cheek%20Garden.gif" alt=""></div>
+    <div class="sprite-pal sprite-cheek-garden pal-hide-mobile" style="top:0; right:-20px;"></div>
   </div>
 
   <div class="divider-thick"></div>
@@ -627,7 +623,7 @@ body {
   <div class="section-relative" style="display:inline;">
     <div class="section-title" style="color:#ffff00;">🎁 Registry</div>
     <!-- Pip Yarn near registry -->
-    <div class="pixel-pal pal-sm anim-hop" style="top:0; left:-15px;"><img src="Pip%20Yarn.gif" alt=""></div>
+    <div class="sprite-pal sprite-pip-yarn" style="top:0; left:-15px;"></div>
   </div>
 
   <div class="registry-note">
@@ -677,11 +673,11 @@ body {
     <div class="fund-card" style="padding:24px 16px;">
       <div class="fund-emoji">💜</div>
       <div class="fund-name" style="color:#6D1ED4;">Zelle</div>
-      <div style="margin:12px 0; padding:16px; border:1px dashed rgba(109,30,212,0.3); text-align:center;">
-        <p style="font-family:Arial; font-size:12px; color:#999; margin-bottom:6px;">Send to:</p>
-        <p style="font-family:'Press Start 2P', monospace; font-size:8px; color:#6D1ED4; letter-spacing:1px; word-break:break-all;">aidannichols2@gmail.com</p>
+      <div class="qr-frame" style="margin:12px auto; border-color:#6D1ED4; box-shadow:0 0 15px rgba(109,30,212,0.2);">
+        <div id="qr-zelle-box" style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;"></div>
       </div>
-      <p style="font-family:Arial; font-size:11px; color:#666;">Available in most banking apps</p>
+      <p style="font-family:'Press Start 2P', monospace; font-size:8px; color:#6D1ED4; letter-spacing:1px; word-break:break-all; margin-top:8px;">aidannichols2@gmail.com</p>
+      <p style="font-family:Arial; font-size:11px; color:#666; margin-top:4px;">Available in most banking apps</p>
     </div>
   </div>
 
@@ -690,14 +686,33 @@ body {
   <!-- ═══ PHOTOS ═══ -->
   <div class="photo-section section-relative">
     <div class="section-title" style="color:#00ffff;">📸 Photo Album</div>
-    <p style="color:#aaa; font-size:14px; margin-bottom:16px;">Took pics at the wedding? Add them to our shared album!</p>
-    <a href="#" id="photo-link" target="_blank" style="display:inline-block;">
-      <div class="qr-frame"><div id="qr-photo-box"></div></div>
-    </a>
-    <p id="photo-url-text" style="font-size:10px; color:#555; font-family:'Courier New'; margin-top:8px;"></p>
-    <p style="font-family:Arial; font-size:12px; color:#666; margin-top:6px;">Tap the QR code or scan it with your phone camera</p>
+
+    <div class="wizard-box">
+      <p style="font-family:'Press Start 2P', monospace; font-size:8px; color:#00ffff; margin-bottom:12px; text-align:center;">📱 HOW IT WORKS</p>
+
+      <div class="wizard-phase" id="phase-pre">
+        <h4 style="color:#ff0080;">🎬 Before the Wedding — Slideshow Submissions</h4>
+        <p>Got a favorite photo of you with Ripley &amp; Aidan? A throwback? Something ridiculous? <strong>Add it to the album now</strong> and it'll be part of the slideshow playing at the wedding!</p>
+      </div>
+
+      <div class="wizard-phase" id="phase-day">
+        <h4 style="color:#ffff00;">📸 Day of the Wedding — Live Album</h4>
+        <p>Same album, new mission: snap photos during the party and <strong>add them in real time</strong>. Everyone can see what everyone else is capturing — the official crowd-sourced wedding album.</p>
+      </div>
+
+      <p style="font-family:Arial; font-size:12px; color:#666; text-align:center; margin-top:12px;">One album. Two phases. Scan the QR code or tap it to open.</p>
+    </div>
+
+    <div style="text-align:center; margin-top:16px;">
+      <a href="#" id="photo-link" target="_blank" style="display:inline-block;">
+        <div class="qr-frame"><div id="qr-photo-box"></div></div>
+      </a>
+      <p id="photo-url-text" style="font-size:10px; color:#555; font-family:'Courier New'; margin-top:8px;"></p>
+      <p style="font-family:Arial; font-size:12px; color:#666; margin-top:6px;">Tap the QR code or scan it with your phone camera</p>
+    </div>
+
     <!-- Stormy Tea near photos -->
-    <div class="pixel-pal pal-sm anim-breathe" style="bottom:0; right:10px;"><img src="Stormy%20Tea.gif" alt=""></div>
+    <div class="sprite-pal sprite-stormy-tea" style="bottom:0; right:10px;"></div>
   </div>
 
   <div class="divider"></div>
@@ -720,7 +735,7 @@ body {
     <p style="color:#333; margin-top:4px;">Best viewed in Netscape Navigator 4.0 at 800×600</p>
     <p style="margin-top:10px; font-size:1rem; letter-spacing:6px;">💜 💍 💜</p>
     <!-- Duncan Donuts in the footer -->
-    <div class="pixel-pal pal-sm anim-wobble" style="bottom:10px; left:10px;"><img src="Duncan%20Donuts.gif" alt=""></div>
+    <div class="sprite-pal sprite-duncan-donuts" style="bottom:10px; left:10px;"></div>
   </div>
 
 </div>
@@ -770,7 +785,7 @@ body {
 <script>
 const CONFIG = {
   webhookUrl: "https://script.google.com/macros/s/AKfycbw__PlvqbA6ICApTf5QK3NG9LblktH6l_9kvT7J_aqG7lxgaMlzRP2YQIfaFnU_r1mpXQ/exec",
-  photoUrl: "YOUR_GOOGLE_PHOTOS_LINK_HERE"
+  photoUrl: "https://photos.google.com/share/AF1QipNVuEY-K-NatzH_ZSEHfzMSLDQmTIS4VHfVi8yBRWeHt7oFe-p1x7253qqGwPHCQg?key=SGtxNFhnWGwwNlhDcEpCcU1qTENzeEIyS3pzLUp3"
 };
 
 const ASSISTANTS = [
@@ -864,6 +879,24 @@ document.getElementById('getting-here-container').innerHTML = `
     text: 'https://venmo.com/u/aidannichols',
     width: 118, height: 118, colorDark: '#008CFF', colorLight: '#ffffff'
   });
+  // Zelle QR
+  new QRCode(document.getElementById('qr-zelle-box'), {
+    text: 'mailto:aidannichols2@gmail.com?subject=Zelle%20-%20Ripley%20%26%20Aidan%20Wedding',
+    width: 118, height: 118, colorDark: '#6D1ED4', colorLight: '#ffffff'
+  });
+})();
+
+// ═══ PHOTO PHASE HIGHLIGHT ═══
+(function() {
+  const wedding = new Date('2026-06-13');
+  const now = new Date();
+  const pre = document.getElementById('phase-pre');
+  const day = document.getElementById('phase-day');
+  if (now >= wedding) {
+    day.classList.add('active');
+  } else {
+    pre.classList.add('active');
+  }
 })();
 
 // ═══ HIT COUNTER ═══
