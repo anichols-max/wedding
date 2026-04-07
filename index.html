@@ -470,6 +470,60 @@ body {
   .sprite-pal { transform: scale(0.85); opacity: 0.8; }
   .video-pal { transform: scale(0.85); opacity: 0.8; }
   .payment-grid { grid-template-columns: 1fr !important; max-width: 280px !important; }
+
+  /* ═══ RSVP MOBILE ACCESSIBILITY PASS ═══ */
+  .form-label { font-size: 17px; margin-bottom: 6px; }
+  .form-input { font-size: 18px; padding: 14px 14px; }
+  .diet-grid { flex-direction: column; gap: 4px; }
+  .diet-option {
+    font-size: 17px; padding: 12px 14px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; min-height: 48px;
+  }
+  .diet-option input[type="checkbox"],
+  .diet-option input[type="radio"] { width: 24px; height: 24px; flex-shrink: 0; }
+  .count-group label { font-size: 17px; }
+  .count-btn { width: 52px; height: 52px; font-size: 26px; flex-shrink: 0; }
+  .count-val { font-size: 18px; min-width: 36px; flex-shrink: 0; }
+  .food-note { font-size: 16px; padding: 14px 16px; }
+  #submitBtn { font-size: 16px !important; padding: 20px 32px !important; width: 100%; }
+
+  /* ═══ TEXT WRAPPING — keep readable, wrap to new lines ═══ */
+  .hero-date { font-size: 0.75rem; line-height: 1.6; }
+  .party-date { font-size: clamp(0.55rem, 2.8vw, 0.75rem); line-height: 1.6; white-space: nowrap; }
+  .party-venue { font-size: 1.4rem; line-height: 1.3; }
+  .party-address { font-size: 1rem; }
+  .party-note { font-size: 0.9rem; }
+  .taco-truck-banner { font-size: 0.65rem; line-height: 1.6; }
+  .floor-badge { font-size: 0.75rem; padding: 6px 12px; letter-spacing: 1px; }
+  .ceremony-note { padding: 16px 14px; font-size: 0.95rem; }
+  .section-title { font-size: 1.4rem; line-height: 1.3; }
+  .ticker marquee { font-size: 10px; }
+
+  /* ═══ MODALS ON MOBILE ═══ */
+  #thank-you-overlay > div,
+  #ceremony-overlay > div {
+    width: 94%; max-width: none;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  #ceremony-overlay .retro-body { padding: 20px 16px; }
+  #ceremony-overlay .retro-body p { word-wrap: break-word; overflow-wrap: break-word; }
+  #ceremony-overlay .count-row { flex-direction: column; gap: 10px; }
+  #ceremonyBtn { width: 100%; font-size: 14px !important; padding: 18px 20px !important; }
+
+  /* ═══ PHOTOS CTA BUTTON WRAP ═══ */
+  .photo-section .btn-primary {
+    font-size: 10px !important; padding: 14px 16px !important;
+    word-break: break-word; white-space: normal; line-height: 1.4;
+  }
+
+  /* ═══ GENERAL TEXT OVERFLOW SAFETY ═══ */
+  .retro-body { overflow-wrap: break-word; word-wrap: break-word; }
+  .retro-body p, .retro-body div { overflow-wrap: break-word; word-wrap: break-word; }
+  .worldcup-notice, .fund-desc, .dir-card p { word-wrap: break-word; overflow-wrap: break-word; }
+
+  /* ═══ NAME GRID STACKS ON TINY SCREENS ═══ */
+  #rsvp-form > div:first-child { grid-template-columns: 1fr !important; }
 }
 
 /* ═══ RETRO OS WINDOW CARDS ═══ */
@@ -544,7 +598,7 @@ body {
 
 <div class="ticker">
   <marquee scrollamount="5">
-    ★ RIPLEY & AIDAN ARE GETTING MARRIED ★ JUNE 13, 2026 ★ PHILADELPHIA PA ★ TACO TRUCK CONFIRMED ★ 2ND FLOOR ★ PLEASE RSVP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 ★
+    ★ RIPLEY & AIDAN ARE GETTING MARRIED ★ JUNE 13, 2026 · 4–9 PM ★ PHILADELPHIA PA ★ TACO TRUCK CONFIRMED ★ 2ND FLOOR ★ PLEASE RSVP ★ BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 ★
   </marquee>
 </div>
 
@@ -554,7 +608,7 @@ body {
   <div class="hero section-relative">
     <div style="font-size:2rem; margin-bottom:8px;">✨ 💍 ✨</div>
     <div class="hero-names">Ripley & Aidan</div>
-    <div class="hero-date">JUNE 13, 2026 · PHILADELPHIA</div>
+    <div class="hero-date">JUNE 13, 2026 · 4–9 PM · PHILADELPHIA</div>
     <div class="hero-sub">are getting married!!!</div>
     <!-- Bo Balloon — true sprite animation -->
     <div class="sprite-pal sprite-bo-balloon" style="top:10px; right:-10px;"></div>
@@ -574,11 +628,13 @@ body {
       <div class="party-hero section-relative">
         <div class="party-venue">The Lithuanian Music Hall</div>
         <div class="party-date">SATURDAY, JUNE 13TH, 2026</div>
+        <div class="party-date" style="margin-top:4px;">4–9 PM</div>
         <div class="party-address">2715 E Allegheny Ave</div>
         <div class="party-address">Philadelphia, PA 19134</div>
         <div class="floor-badge">⬆ 2ND FLOOR ⬆</div>
         <div class="party-note">Dinner, dancing, tacos & all your faves</div>
-        <div class="taco-truck-banner">🌮 TACO TRUCK · 4 HOURS · 200+ GUESTS 🌮</div>
+        <div class="party-note" style="margin-top:6px; font-size:0.85rem; color:#00ffff;">👶 Kids are absolutely welcome!</div>
+        <div class="taco-truck-banner">🌮 TACO TRUCK · 5 HOURS · 200+ GUESTS 🌮</div>
         <!-- Treasure (taco Pusheen) near the taco banner -->
         <div class="sprite-pal sprite-treasure" style="bottom:-30px; left:10px;"></div>
         <!-- Bo Stormy waving near party -->
@@ -630,6 +686,15 @@ body {
         </div>
       </div>
 
+      <div style="margin:18px 0;">
+        <p style="font-family:Arial; font-size:15px; color:#ccc; font-weight:bold; margin-bottom:8px;">Will you be attending?</p>
+        <div class="diet-grid">
+          <label class="diet-option"><input type="radio" name="attending" id="attending_yes" value="yes" checked style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleAttending()"> 🎉 Wouldn't miss it!</label>
+          <label class="diet-option"><input type="radio" name="attending" id="attending_no" value="no" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleAttending()"> 😢 Can't make it</label>
+        </div>
+      </div>
+
+      <div id="attending-details">
       <div class="count-row">
         <div class="count-group">
           <label>🧑 Adults</label>
@@ -661,26 +726,32 @@ body {
       <div style="margin:18px 0;">
         <p style="font-family:Arial; font-size:15px; color:#ccc; font-weight:bold; margin-bottom:8px;">🍻 Will your party be drinking?</p>
         <div class="diet-grid">
-          <label class="diet-option"><input type="radio" name="drinking" id="drinking_yes" value="yes" checked style="accent-color:#ff0080; width:20px; height:20px;"> Yes</label>
-          <label class="diet-option"><input type="radio" name="drinking" id="drinking_no" value="no" style="accent-color:#ff0080; width:20px; height:20px;"> No</label>
-          <label class="diet-option"><input type="radio" name="drinking" id="drinking_some" value="some" style="accent-color:#ff0080; width:20px; height:20px;"> Some of us</label>
+          <label class="diet-option"><input type="radio" name="drinking" id="drinking_yes" value="yes" checked style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleDrinkTypes()"> Yes</label>
+          <label class="diet-option"><input type="radio" name="drinking" id="drinking_no" value="no" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleDrinkTypes()"> None for me, thanks</label>
         </div>
-        <div id="drinker-count-row" style="margin-top:10px; display:none;">
-          <div class="count-group">
-            <label>🍻 Drinkers</label>
-            <button class="count-btn" onclick="adjustCount('drinkers',-1)">−</button>
-            <span class="count-val" id="count-drinkers">1</span>
-            <button class="count-btn" onclick="adjustCount('drinkers',1)">+</button>
+        <div id="no-drink-note" style="display:none; margin-top:10px; font-family:Arial; font-size:14px; color:#00ffff; font-style:italic;">🥤 No worries — we'll have plenty of non-alcoholic drinks too!</div>
+        <div id="drink-types" style="margin-top:14px;">
+          <p style="font-family:Arial; font-size:15px; color:#ccc; font-weight:bold; margin-bottom:8px;">What do you want to drink?</p>
+          <div class="diet-grid">
+            <label class="diet-option"><input type="checkbox" id="drink_wine" style="accent-color:#ff0080; width:20px; height:20px;"> 🍷 Wine</label>
+            <label class="diet-option"><input type="checkbox" id="drink_beer" style="accent-color:#ff0080; width:20px; height:20px;"> 🍺 Beer</label>
+            <label class="diet-option"><input type="checkbox" id="drink_liquor" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleLiquorDetail()"> 🥃 Liquor</label>
+            <label class="diet-option"><input type="checkbox" id="drink_yes" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleSelectAll()"> 🎉 Yes</label>
+          </div>
+          <div id="liquor-detail" style="margin-top:10px; display:none;">
+            <input id="liquor_types" type="text" class="form-input" placeholder="What kind? e.g. vodka, whiskey, tequila...">
           </div>
         </div>
       </div>
 
       <div class="food-note section-relative">
-        <strong>🌮 The food is tacos!</strong> Our taco truck will be serving for 4 hours straight.<br><br>
+        <strong>🌮 The food is tacos!</strong> Our taco truck will be serving for 5 hours straight.<br><br>
         Just let us know if your party is <em>vegetarian</em> or <em>vegan</em> so we can make sure there are options for everyone. Any other concerns, drop them above!
         <!-- Picnic near the food note -->
         <div class="sprite-pal sprite-picnic" style="bottom:-25px; left:50%; margin-left:-40px;"></div>
       </div>
+
+      </div><!-- /attending-details -->
 
       <div style="text-align:center; margin-top:20px;">
         <button class="btn btn-primary" id="submitBtn" onclick="submitRSVP()" style="font-size:14px; padding:18px 40px;">✉️ SUBMIT RSVP</button>
@@ -693,24 +764,6 @@ body {
     <!-- DONE (hidden, modal shows instead) -->
     <div id="rsvp-done" style="display:none;"></div>
   </div>
-  </div>
-
-  <div class="divider-thick"></div>
-
-  <!-- ═══ GETTING HERE ═══ -->
-  <div class="retro-window">
-    <div class="retro-titlebar">
-      <div class="retro-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
-      <span class="retro-title">directions.exe</span>
-    </div>
-    <div class="retro-body">
-      <div class="section-relative">
-        <div class="section-title" style="color:#ffff00;">🗺️ Getting Here</div>
-        <div id="getting-here-container"></div>
-        <!-- Cheek Garden near directions -->
-        <div class="sprite-pal sprite-cheek-garden pal-hide-mobile" style="top:0; right:-20px;"></div>
-      </div>
-    </div>
   </div>
 
   <div class="divider-thick"></div>
@@ -792,28 +845,11 @@ body {
   <div class="photo-section section-relative">
     <div class="section-title" style="color:#00ffff;">📸 Photo Album</div>
 
-    <div class="wizard-box">
-      <p style="font-family:'Press Start 2P', monospace; font-size:11px; color:#00ffff; margin-bottom:12px; text-align:center;">📱 HOW IT WORKS</p>
+    <p style="font-family:Arial; font-size:16px; color:#ccc; text-align:center; line-height:1.6; margin-bottom:8px;">Got a favorite photo of you with Ripley &amp; Aidan? A throwback? Something ridiculous? Add it to the album!</p>
+    <p style="font-family:Arial; font-size:15px; color:#ff8800; text-align:center; line-height:1.6; font-style:italic;">Photos you contribute will play in a slideshow during the wedding 🎬</p>
 
-      <div class="wizard-phase" id="phase-pre">
-        <h4 style="color:#ff0080;">🎬 Before the Wedding — Slideshow Submissions</h4>
-        <p>Got a favorite photo of you with Ripley &amp; Aidan? A throwback? Something ridiculous? <strong>Add it to the album now</strong> and it'll be part of the slideshow playing at the wedding!</p>
-      </div>
-
-      <div class="wizard-phase" id="phase-day">
-        <h4 style="color:#ffff00;">📸 Day of the Wedding — Live Album</h4>
-        <p>Same album, new mission: snap photos during the party and <strong>add them in real time</strong>. Everyone can see what everyone else is capturing — the official crowd-sourced wedding album.</p>
-      </div>
-
-      <p style="font-family:Arial; font-size:15px; color:#999; text-align:center; margin-top:12px;">One album. Two phases. Scan the QR code or tap it to open.</p>
-    </div>
-
-    <div style="text-align:center; margin-top:16px;">
-      <a href="#" id="photo-link" target="_blank" style="display:inline-block;">
-        <div class="qr-frame"><div id="qr-photo-box"></div></div>
-      </a>
-      <p id="photo-url-text" style="font-size:11px; color:#999; font-family:'Courier New'; margin-top:8px;"></p>
-      <p style="font-family:Arial; font-size:15px; color:#999; margin-top:6px;">Tap the QR code or scan it with your phone camera</p>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="#" id="photo-link" target="_blank" class="btn btn-primary" style="font-size:12px; padding:16px 32px; text-decoration:none; display:inline-block;">📸 CONTRIBUTE TO THE WEDDING SLIDESHOW</a>
     </div>
 
     <!-- Stormy Tea near photos -->
@@ -895,8 +931,56 @@ body {
         <h3 id="thank-you-name" style="color:#ff0080; font-family:'Comic Sans MS','Trebuchet MS',sans-serif; font-size:1.4rem; margin-bottom:12px;"></h3>
         <p style="font-family:Arial; font-size:16px; color:#ccc; line-height:1.6; margin-bottom:8px;">We can't wait to see you!</p>
         <p style="font-family:Arial; font-size:15px; color:#aaa; line-height:1.6;">Get ready for tacos, dancing, and the best party of 2026.</p>
-        <p style="font-family:'Press Start 2P', monospace; font-size:11px; color:#00ffff; margin-top:20px; text-shadow:0 0 8px #00ffff;">JUNE 13, 2026 · PHILLY</p>
+        <p style="font-family:'Press Start 2P', monospace; font-size:11px; color:#00ffff; margin-top:20px; text-shadow:0 0 8px #00ffff;">JUNE 13, 2026 · 4–9 PM · PHILLY</p>
         <button class="btn btn-primary" onclick="closeThankYou()" style="margin-top:20px; font-size:12px; padding:14px 28px;">LET'S GO 🌮</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CEREMONY MODAL (step 2 for invited guests) ═══ -->
+<div id="ceremony-overlay" style="display:none; position:fixed; inset:0; z-index:2001; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+  <div style="max-width:460px; width:90%; margin:auto; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
+    <div class="retro-window" style="margin:0; border-color:#ff0080; box-shadow:0 0 40px rgba(255,0,128,0.3);">
+      <div class="retro-titlebar" style="background:linear-gradient(90deg, #ff0080, #ff8800);">
+        <div class="retro-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+        <span class="retro-title" style="color:#fff;">ceremony.exe</span>
+      </div>
+      <div class="retro-body" style="padding:28px 24px;">
+        <p style="font-size:2rem; text-align:center; margin-bottom:12px;">💍 ✨ 💍</p>
+        <p style="font-family:Arial; font-size:17px; color:#ff0080; font-weight:bold; text-align:center; margin-bottom:8px;">One more thing...</p>
+        <p style="font-family:Arial; font-size:15px; color:#ccc; text-align:center; line-height:1.6; margin-bottom:6px;">You're invited to the ceremony! It's a small, intimate gathering.</p>
+        <p style="font-family:Arial; font-size:14px; color:#00ffff; text-align:center; line-height:1.6; margin-bottom:6px;"><strong>Friday, June 12th · 1 PM</strong><br>Penn Treaty Park · Philadelphia</p>
+        <p style="font-family:Arial; font-size:14px; color:#aaa; text-align:center; line-height:1.6; margin-bottom:16px;">No pressure! We totally get that taking Friday off isn't easy. The real party is Saturday, and that's what matters most.</p>
+
+        <p style="font-family:Arial; font-size:15px; color:#ccc; font-weight:bold; margin-bottom:8px;">Will you be attending the ceremony?</p>
+        <div class="diet-grid">
+          <label class="diet-option"><input type="radio" name="ceremony" id="ceremony_yes" value="yes" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleCeremonyDetails()"> Yes!</label>
+          <label class="diet-option"><input type="radio" name="ceremony" id="ceremony_no" value="no" checked style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleCeremonyDetails()"> Can't make it</label>
+        </div>
+
+        <div id="ceremony-details" style="display:none; margin-top:14px;">
+          <div class="count-row">
+            <div class="count-group">
+              <label>💍 Attending ceremony</label>
+              <button class="count-btn" onclick="adjustCount('ceremony',-1)">−</button>
+              <span class="count-val" id="count-ceremony">1</span>
+              <button class="count-btn" onclick="adjustCount('ceremony',1)">+</button>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <p style="font-family:Arial; font-size:15px; color:#ccc; font-weight:bold; margin-bottom:8px;">Will you be joining for dinner afterward?</p>
+            <div class="diet-grid">
+              <label class="diet-option"><input type="radio" name="ceremony_dinner" id="dinner_yes" value="yes" checked style="accent-color:#ff0080; width:20px; height:20px;"> Yes!</label>
+              <label class="diet-option"><input type="radio" name="ceremony_dinner" id="dinner_no" value="no" style="accent-color:#ff0080; width:20px; height:20px;"> No thanks</label>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center; margin-top:20px;">
+          <button class="btn btn-primary" onclick="submitCeremony()" id="ceremonyBtn" style="font-size:12px; padding:16px 28px;">💍 SUBMIT</button>
+        </div>
       </div>
     </div>
   </div>
@@ -965,41 +1049,18 @@ function finishLoader() {
 function skipLoader() { finishLoader(); }
 runLoader();
 
-// ═══ GETTING HERE ═══
-document.getElementById('getting-here-container').innerHTML = `
-  <div class="directions-grid">
-    <div class="dir-card">
-      <h3 style="color:#ff0080;">🎉 The Party — Lithuanian Music Hall</h3>
-      <p class="addr">2715 E Allegheny Ave</p>
-      <p class="addr">Philadelphia, PA 19134</p>
-      <p style="margin-top:6px;"><span style="color:#ff0080; font-weight:bold; font-family:'Press Start 2P',monospace; font-size:12px;">⬆ 2ND FLOOR ⬆</span></p>
-      <p style="margin-top:6px;">Port Richmond neighborhood. Head upstairs when you arrive!</p>
-    </div>
-    <div class="dir-card">
-      <h3 style="color:#ffff00;">🅿️ Parking</h3>
-      <div class="parking-badge">DETAILS COMING SOON</div>
-      <p style="margin-top:8px;">We are securing a dedicated parking lot nearby. Check back for the address!</p>
-      <div class="shuttle-info">
-        🚐 <strong>Shuttle Service:</strong> A shuttle will run from the parking lot to the venue. Schedule and pickup location TBD — check back closer to the date!
-      </div>
-    </div>
-  </div>
-`;
+// (getting here section removed — info is in party details)
 
 // ═══ QR CODES ═══
 (function() {
-  // Photo album QR
-  const box = document.getElementById('qr-photo-box');
+  // Photo album link
   const link = document.getElementById('photo-link');
-  const txt = document.getElementById('photo-url-text');
   if (CONFIG.photoUrl !== 'YOUR_GOOGLE_PHOTOS_LINK_HERE') {
     link.href = CONFIG.photoUrl;
-    txt.textContent = CONFIG.photoUrl;
-    new QRCode(box, { text: CONFIG.photoUrl, width: 178, height: 178, colorDark: '#ff0080', colorLight: '#ffffff' });
   } else {
-    box.innerHTML = '<div style="width:178px;height:178px;display:flex;align-items:center;justify-content:center;background:#1a1a2e;color:#999;font-family:Arial;font-size:12px;text-align:center;padding:10px;border:1px dashed #555;">Set photoUrl<br>in CONFIG to<br>generate QR</div>';
-    txt.textContent = 'Photo album link coming soon';
+    link.style.opacity = '0.5';
     link.style.cursor = 'default';
+    link.onclick = function(e) { e.preventDefault(); };
   }
   // Venmo QR
   new QRCode(document.getElementById('qr-venmo-box'), {
@@ -1010,18 +1071,7 @@ document.getElementById('getting-here-container').innerHTML = `
   document.getElementById('qr-zelle-box').innerHTML = '<div style="width:160px;height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;"><p style="font-size:2.5rem;">💜</p><p style="font-family:Arial;font-size:13px;color:#6D1ED4;text-align:center;line-height:1.4;">Search for the email below<br>in your banking app</p></div>';
 })();
 
-// ═══ PHOTO PHASE HIGHLIGHT ═══
-(function() {
-  const wedding = new Date('2026-06-13');
-  const now = new Date();
-  const pre = document.getElementById('phase-pre');
-  const day = document.getElementById('phase-day');
-  if (now >= wedding) {
-    day.classList.add('active');
-  } else {
-    pre.classList.add('active');
-  }
-})();
+// (photo phase highlight removed — simplified photos section)
 
 // ═══ HIT COUNTER ═══
 const visits = parseInt(localStorage.getItem('ra_visits') || '1336') + 1;
@@ -1029,7 +1079,30 @@ localStorage.setItem('ra_visits', visits);
 document.getElementById('hit-counter').textContent = String(visits).padStart(5, '0');
 
 // ═══ RSVP ═══
-let rsvpState = { adults: 1, kids: 0, drinkers: 1 };
+let rsvpState = { adults: 1, kids: 0, ceremony: 1 };
+let ceremonyInvited = false;
+let ceremonyChecked = false;
+
+// Prefetch ceremony status when name is entered
+async function prefetchCeremony() {
+  const first = document.getElementById('rsvp-first').value.trim();
+  const last = document.getElementById('rsvp-last').value.trim();
+  if (!first || !last) return;
+  try {
+    const url = CONFIG.webhookUrl + '?action=lookup&first=' + encodeURIComponent(first) + '&last=' + encodeURIComponent(last);
+    const resp = await fetch(url, { redirect: 'follow' });
+    const data = await resp.json();
+    ceremonyInvited = data.found && data.ceremony_invited;
+    ceremonyChecked = true;
+  } catch (err) { /* silent */ }
+}
+document.getElementById('rsvp-first').addEventListener('blur', prefetchCeremony);
+document.getElementById('rsvp-last').addEventListener('blur', prefetchCeremony);
+
+function toggleAttending() {
+  const attending = document.getElementById('attending_yes').checked;
+  document.getElementById('attending-details').style.display = attending ? 'block' : 'none';
+}
 
 function adjustCount(type, delta) {
   if (type === 'adults') {
@@ -1038,32 +1111,81 @@ function adjustCount(type, delta) {
   } else if (type === 'kids') {
     rsvpState.kids = Math.max(0, rsvpState.kids + delta);
     document.getElementById('count-kids').textContent = rsvpState.kids;
-  } else if (type === 'drinkers') {
-    const max = rsvpState.adults + rsvpState.kids;
-    rsvpState.drinkers = Math.max(1, Math.min(max || 1, rsvpState.drinkers + delta));
-    document.getElementById('count-drinkers').textContent = rsvpState.drinkers;
+  } else if (type === 'ceremony') {
+    rsvpState.ceremony = Math.max(1, rsvpState.ceremony + delta);
+    document.getElementById('count-ceremony').textContent = rsvpState.ceremony;
   }
 }
 
-// Show/hide drinker count when "some of us" is selected
-document.querySelectorAll('input[name="drinking"]').forEach(r => {
-  r.addEventListener('change', () => {
-    document.getElementById('drinker-count-row').style.display =
-      document.getElementById('drinking_some').checked ? 'block' : 'none';
-  });
-});
+function toggleCeremonyDetails() {
+  const attending = document.getElementById('ceremony_yes').checked;
+  document.getElementById('ceremony-details').style.display = attending ? 'block' : 'none';
+}
 
-function getDrinkerCount() {
-  if (document.getElementById('drinking_yes').checked) return rsvpState.adults + rsvpState.kids;
-  if (document.getElementById('drinking_no').checked) return 0;
-  return rsvpState.drinkers; // "some of us"
+async function submitCeremony() {
+  const btn = document.getElementById('ceremonyBtn');
+  btn.disabled = true; btn.innerHTML = '⏳ Saving...';
+
+  const first = window._rsvpFirst || '';
+  const last = window._rsvpLast || '';
+
+  const payload = new URLSearchParams();
+  payload.append('household', first + ' ' + last);
+
+  if (document.getElementById('ceremony_yes').checked) {
+    payload.append('ceremony_rsvp', rsvpState.ceremony);
+    payload.append('ceremony_dinner', document.getElementById('dinner_yes').checked ? 'Yes' : 'No');
+  } else {
+    payload.append('ceremony_rsvp', '0');
+    payload.append('ceremony_dinner', 'No');
+  }
+  payload.append('tags', 'web-rsvp');
+
+  try {
+    await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', body: payload });
+  } catch (err) {
+    console.error('[Ceremony submit]', err);
+  }
+
+  document.getElementById('ceremony-overlay').style.display = 'none';
+  showThankYou(first);
+}
+
+function toggleDrinkTypes() {
+  const drinking = document.getElementById('drinking_yes').checked;
+  document.getElementById('drink-types').style.display = drinking ? 'block' : 'none';
+  document.getElementById('no-drink-note').style.display = drinking ? 'none' : 'block';
+}
+
+function toggleSelectAll() {
+  const checked = document.getElementById('drink_yes').checked;
+  document.getElementById('drink_wine').checked = checked;
+  document.getElementById('drink_beer').checked = checked;
+  document.getElementById('drink_liquor').checked = checked;
+  document.getElementById('liquor-detail').style.display = checked ? 'block' : 'none';
+}
+
+function toggleLiquorDetail() {
+  document.getElementById('liquor-detail').style.display =
+    document.getElementById('drink_liquor').checked ? 'block' : 'none';
+}
+
+function getDrinkPreferences() {
+  if (document.getElementById('drinking_no').checked) return 'None';
+  const prefs = [];
+  if (document.getElementById('drink_wine').checked) prefs.push('Wine');
+  if (document.getElementById('drink_beer').checked) prefs.push('Beer');
+  if (document.getElementById('drink_liquor').checked) prefs.push('Liquor');
+  if (document.getElementById('drink_yes').checked) prefs.push('Yes');
+  return prefs.length ? prefs.join(', ') : 'Yes';
 }
 
 async function submitRSVP() {
   const first = document.getElementById('rsvp-first').value.trim();
   const last = document.getElementById('rsvp-last').value.trim();
   if (!first || !last) { alert('Please enter your first and last name.'); return; }
-  if (rsvpState.adults + rsvpState.kids === 0) { alert('Please add at least 1 person.'); return; }
+  const isAttending = document.getElementById('attending_yes').checked;
+  if (isAttending && rsvpState.adults + rsvpState.kids === 0) { alert('Please add at least 1 person.'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.innerHTML = '⏳ Sending...';
@@ -1081,26 +1203,36 @@ async function submitRSVP() {
   payload.append('household', first + ' ' + last);
   payload.append('guests', first + ' ' + last);
   payload.append('guest_count', total);
-  payload.append('ceremony_count', '');
   payload.append('address', '');
   payload.append('mailing_block', '');
   payload.append('phone', '');
   payload.append('save_date_status', '');
   payload.append('rsvp_status', 'Submitted');
-  payload.append('attending', 'Yes');
-  payload.append('adults_attending', rsvpState.adults);
-  payload.append('kids_attending', rsvpState.kids);
-  payload.append('food_choices', foodChoices.join(', ') || 'None');
-  payload.append('dietary_notes', document.getElementById('allergies').value.trim() || 'None');
-  payload.append('drinkers', getDrinkerCount());
+  payload.append('attending', isAttending ? 'Yes' : 'No');
+  payload.append('adults_attending', isAttending ? rsvpState.adults : 0);
+  payload.append('kids_attending', isAttending ? rsvpState.kids : 0);
+  payload.append('food_choices', isAttending ? (foodChoices.join(', ') || 'None') : '');
+  payload.append('dietary_notes', isAttending ? (document.getElementById('allergies').value.trim() || 'None') : '');
+  payload.append('drinkers', isAttending ? getDrinkPreferences() : 'N/A');
   payload.append('tags', 'web-rsvp');
-  payload.append('notes', '');
+  const liquorDetail = document.getElementById('drink_liquor').checked ? document.getElementById('liquor_types').value.trim() : '';
+  payload.append('notes', liquorDetail ? 'Liquor preference: ' + liquorDetail : '');
 
   try {
     await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', body: payload });
     document.getElementById('rsvp-form').style.display = 'none';
     document.getElementById('rsvp-done').style.display = 'block';
-    showThankYou(first);
+
+    if (isAttending && ceremonyInvited) {
+      // Show ceremony modal immediately — lookup was prefetched
+      document.getElementById('ceremony-overlay').style.display = 'flex';
+      window._rsvpFirst = first;
+      window._rsvpLast = last;
+    } else if (isAttending) {
+      showThankYou(first);
+    } else {
+      showDeclined(first);
+    }
   } catch (err) {
     const el = document.getElementById('statusMessage');
     el.textContent = '❌ Something went wrong. Try again or contact us directly.';
@@ -1117,6 +1249,11 @@ function showThankYou(firstName) {
 }
 function closeThankYou() {
   document.getElementById('thank-you-overlay').style.display = 'none';
+}
+function showDeclined(firstName) {
+  document.getElementById('thank-you-name').textContent = 'We\'ll miss you, ' + firstName + '! 💔';
+  const overlay = document.getElementById('thank-you-overlay');
+  overlay.style.display = 'flex';
 }
 
 // ═══ YOU'VE GOT MAIL ═══
