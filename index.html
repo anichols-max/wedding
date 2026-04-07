@@ -713,11 +713,8 @@ body {
           <div class="diet-grid">
             <label class="diet-option"><input type="checkbox" id="drink_wine" style="accent-color:#ff0080; width:20px; height:20px;"> 🍷 Wine</label>
             <label class="diet-option"><input type="checkbox" id="drink_beer" style="accent-color:#ff0080; width:20px; height:20px;"> 🍺 Beer</label>
-            <label class="diet-option"><input type="checkbox" id="drink_liquor" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleLiquorDetail()"> 🥃 Liquor</label>
+            <label class="diet-option"><input type="checkbox" id="drink_liquor" style="accent-color:#ff0080; width:20px; height:20px;"> 🥃 Liquor</label>
             <label class="diet-option"><input type="checkbox" id="drink_yes" style="accent-color:#ff0080; width:20px; height:20px;" onchange="toggleSelectAll()"> 🎉 Yes</label>
-          </div>
-          <div id="liquor-detail" style="margin-top:10px; display:none;">
-            <input id="liquor_types" type="text" class="form-input" placeholder="What kind? e.g. vodka, whiskey, tequila...">
           </div>
         </div>
       </div>
@@ -1123,12 +1120,6 @@ function toggleSelectAll() {
   document.getElementById('drink_wine').checked = checked;
   document.getElementById('drink_beer').checked = checked;
   document.getElementById('drink_liquor').checked = checked;
-  document.getElementById('liquor-detail').style.display = checked ? 'block' : 'none';
-}
-
-function toggleLiquorDetail() {
-  document.getElementById('liquor-detail').style.display =
-    document.getElementById('drink_liquor').checked ? 'block' : 'none';
 }
 
 function getDrinkPreferences() {
@@ -1178,8 +1169,7 @@ async function submitRSVP() {
   payload.append('drinkers', isAttending ? (drinkingYes ? rsvpState.adults : 0) : 0);
   payload.append('drink_types', isAttending ? getDrinkPreferences() : 'N/A');
   payload.append('tags', 'web-rsvp');
-  const liquorDetail = document.getElementById('drink_liquor').checked ? document.getElementById('liquor_types').value.trim() : '';
-  payload.append('notes', liquorDetail ? 'Liquor preference: ' + liquorDetail : '');
+  payload.append('notes', '');
 
   try {
     await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', body: payload });
