@@ -1174,7 +1174,9 @@ async function submitRSVP() {
   payload.append('kids_attending', isAttending ? rsvpState.kids : 0);
   payload.append('food_choices', isAttending ? (foodChoices.join(', ') || 'None') : '');
   payload.append('dietary_notes', isAttending ? (document.getElementById('allergies').value.trim() || 'None') : '');
-  payload.append('drinkers', isAttending ? getDrinkPreferences() : 'N/A');
+  const drinkingYes = document.getElementById('drinking_yes').checked;
+  payload.append('drinkers', isAttending ? (drinkingYes ? rsvpState.adults : 0) : 0);
+  payload.append('drink_types', isAttending ? getDrinkPreferences() : 'N/A');
   payload.append('tags', 'web-rsvp');
   const liquorDetail = document.getElementById('drink_liquor').checked ? document.getElementById('liquor_types').value.trim() : '';
   payload.append('notes', liquorDetail ? 'Liquor preference: ' + liquorDetail : '');

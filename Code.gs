@@ -183,7 +183,7 @@ function updateRow(sheet, headerMap, data, matchRow) {
   var fieldsToUpdate = [
     'rsvp_status', 'attending',
     'adults_attending', 'kids_attending',
-    'food_choices', 'dietary_notes', 'drinkers',
+    'food_choices', 'dietary_notes', 'drinkers', 'drink_types',
     'notes', 'ceremony_rsvp', 'ceremony_dinner'
   ];
 
