@@ -316,28 +316,6 @@ body {
 .badge-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
 .badge { padding: 2px 8px; font-size: 11px; font-weight: bold; font-family: Arial; }
 
-/* ═══ YOU'VE GOT MAIL ═══ */
-#ygm-popup {
-  display: none; position: fixed; z-index: 1000;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 340px; max-width: 90vw;
-  background: #1a1a2e; border: 2px solid #ff0080;
-  box-shadow: 0 0 40px rgba(255,0,128,0.3);
-}
-.ygm-header {
-  background: linear-gradient(90deg, #ff0080, #ff8800);
-  padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;
-  font-family: 'Press Start 2P', monospace; font-size: 11px; color: #fff;
-}
-.ygm-close {
-  background: none; border: 1px solid rgba(255,255,255,0.3);
-  color: #fff; width: 32px; height: 32px; cursor: pointer;
-  font-size: 14px; display: flex; align-items: center; justify-content: center;
-}
-.ygm-body { padding: 20px; text-align: center; }
-.ygm-body p { font-family: Arial; font-size: 15px; color: #ccc; margin: 6px 0; line-height: 1.5; }
-.ygm-btns { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
-
 /* ═══ ASSISTANT POPUP ═══ */
 #assistant-popup {
   display: none; position: fixed; z-index: 999;
@@ -883,23 +861,6 @@ body {
 
 </div>
 
-<!-- ═══ YOU'VE GOT MAIL POPUP ═══ -->
-<div id="ygm-popup">
-  <div class="ygm-header">
-    <span>📬 You've Got Mail!</span>
-    <button class="ygm-close" onclick="closeYGM()">✕</button>
-  </div>
-  <div class="ygm-body">
-    <div style="font-size:2rem; margin-bottom:10px;">💌</div>
-    <p><strong>1 new invitation</strong></p>
-    <p style="font-size:14px; color:#aaa;">From: ripley_aidan_wedding<br>Subject: You're Invited! 💍</p>
-    <div class="ygm-btns">
-      <button class="btn btn-primary" onclick="readYGM()" style="font-size:10px;">Open & RSVP >></button>
-      <button class="btn btn-secondary" onclick="closeYGM()" style="font-size:10px;">Close</button>
-    </div>
-  </div>
-</div>
-
 <!-- ═══ ASSISTANT POPUP ═══ -->
 <div id="assistant-popup">
   <div class="asst-header">
@@ -1255,13 +1216,6 @@ function showDeclined(firstName) {
   const overlay = document.getElementById('thank-you-overlay');
   overlay.style.display = 'flex';
 }
-
-// ═══ YOU'VE GOT MAIL ═══
-const ygmKey = 'ra_ygm_shown';
-function showYGM() { if (sessionStorage.getItem(ygmKey)) return; document.getElementById('ygm-popup').style.display = 'block'; }
-function closeYGM() { document.getElementById('ygm-popup').style.display = 'none'; sessionStorage.setItem(ygmKey, '1'); }
-function readYGM() { closeYGM(); document.getElementById('rsvp-section').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-setTimeout(showYGM, 8000);
 
 // ═══ ASSISTANTS ═══
 let assistantQueue = [], currentAsst = null, currentMsgIndex = 0;
