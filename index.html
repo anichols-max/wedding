@@ -743,6 +743,22 @@ body {
 
   <div class="divider-thick"></div>
 
+  <!-- ═══ GETTING HERE ═══ -->
+  <div class="retro-window">
+    <div class="retro-titlebar">
+      <div class="retro-dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div>
+      <span class="retro-title">directions.exe</span>
+    </div>
+    <div class="retro-body">
+      <div class="section-relative">
+        <div class="section-title" style="color:#ffff00;">🗺️ Getting Here</div>
+        <div id="getting-here-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-thick"></div>
+
   <!-- ═══ REGISTRY ═══ -->
   <div class="retro-window">
     <div class="retro-titlebar">
@@ -1007,7 +1023,25 @@ function finishLoader() {
 function skipLoader() { finishLoader(); }
 runLoader();
 
-// (getting here section removed — info is in party details)
+document.getElementById('getting-here-container').innerHTML = `
+  <div class="directions-grid">
+    <div class="dir-card">
+      <h3 style="color:#ff0080;">🎉 The Party — Lithuanian Music Hall</h3>
+      <p class="addr">2715 E Allegheny Ave</p>
+      <p class="addr">Philadelphia, PA 19134</p>
+      <p style="margin-top:6px;"><span style="color:#ff0080; font-weight:bold; font-family:'Press Start 2P',monospace; font-size:12px;">⬆ 2ND FLOOR ⬆</span></p>
+      <p style="margin-top:6px;">Port Richmond neighborhood. Head upstairs when you arrive!</p>
+    </div>
+    <div class="dir-card">
+      <h3 style="color:#ffff00;">🅿️ Parking</h3>
+      <div class="parking-badge">DETAILS COMING SOON</div>
+      <p style="margin-top:8px;">We are securing a dedicated parking lot nearby. Check back for the address!</p>
+      <div class="shuttle-info">
+        🚐 <strong>Shuttle Service:</strong> A shuttle will run from the parking lot to the venue. Schedule and pickup location TBD — check back closer to the date!
+      </div>
+    </div>
+  </div>
+`;
 
 // ═══ QR CODES ═══
 (function() {
