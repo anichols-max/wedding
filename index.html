@@ -752,7 +752,9 @@ body {
     <div class="retro-body">
       <div class="section-relative">
         <div class="section-title" style="color:#ffff00;">🚐 Shuttle</div>
-        <div id="getting-here-container"></div>
+        <div class="shuttle-info">
+          🚐 <strong>Shuttle Service:</strong> A shuttle will run from the parking lot to the venue. Schedule and pickup location TBD — check back closer to the date!
+        </div>
       </div>
     </div>
   </div>
@@ -1022,12 +1024,6 @@ function finishLoader() {
 }
 function skipLoader() { finishLoader(); }
 runLoader();
-
-document.getElementById('getting-here-container').innerHTML = `
-  <div class="shuttle-info">
-    🚐 <strong>Shuttle Service:</strong> A shuttle will run from the parking lot to the venue. Schedule and pickup location TBD — check back closer to the date!
-  </div>
-`;
 
 // ═══ QR CODES ═══
 (function() {
