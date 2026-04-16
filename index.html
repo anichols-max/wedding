@@ -1056,19 +1056,23 @@ document.getElementById('hit-counter').textContent = String(visits).padStart(5, 
 let rsvpState = { adults: 1, kids: 0, ceremony: 1 };
 let ceremonyInvited = false;
 let ceremonyChecked = false;
+let ceremonyLookupPromise = null;
 
 // Prefetch ceremony status when name is entered
-async function prefetchCeremony() {
+function prefetchCeremony() {
   const first = document.getElementById('rsvp-first').value.trim();
   const last = document.getElementById('rsvp-last').value.trim();
-  if (!first || !last) return;
-  try {
-    const url = CONFIG.webhookUrl + '?action=lookup&first=' + encodeURIComponent(first) + '&last=' + encodeURIComponent(last);
-    const resp = await fetch(url, { redirect: 'follow' });
-    const data = await resp.json();
-    ceremonyInvited = data.found && data.ceremony_invited;
+  if (!first || !last) return null;
+  ceremonyLookupPromise = (async () => {
+    try {
+      const url = CONFIG.webhookUrl + '?action=lookup&first=' + encodeURIComponent(first) + '&last=' + encodeURIComponent(last);
+      const resp = await fetch(url, { redirect: 'follow' });
+      const data = await resp.json();
+      ceremonyInvited = data.found && data.ceremony_invited;
+    } catch (err) { /* treat failures as not invited */ }
     ceremonyChecked = true;
-  } catch (err) { /* silent */ }
+  })();
+  return ceremonyLookupPromise;
 }
 document.getElementById('rsvp-first').addEventListener('blur', prefetchCeremony);
 document.getElementById('rsvp-last').addEventListener('blur', prefetchCeremony);
@@ -1189,11 +1193,21 @@ async function submitRSVP() {
 
   try {
     await fetch(CONFIG.webhookUrl, { method: 'POST', mode: 'no-cors', body: payload });
+
+    // Hard gate: invited guests MUST see the ceremony modal.
+    // Wait for the lookup before branching (blur may not have fired on mobile,
+    // or the lookup may still be in-flight).
+    if (isAttending) {
+      btn.innerHTML = '⏳ Checking invite...';
+      if (!ceremonyChecked) {
+        await (ceremonyLookupPromise || prefetchCeremony());
+      }
+    }
+
     document.getElementById('rsvp-form').style.display = 'none';
     document.getElementById('rsvp-done').style.display = 'block';
 
     if (isAttending && ceremonyInvited) {
-      // Show ceremony modal immediately — lookup was prefetched
       document.getElementById('ceremony-overlay').style.display = 'flex';
       window._rsvpFirst = first;
       window._rsvpLast = last;
